@@ -1,6 +1,6 @@
 package com.sanhuo.test.mapper;
 
-import com.sanhuo.persistent.mapper.annotation.Mapper;
+import com.sanhuo.persistent.binding.annotation.Mapper;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
  * @author sanhuo
  * @date 2020/3/1 0001 下午 22:24
  */
-@Mapper
+@Component
 public class Clazz {
 }

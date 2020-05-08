@@ -25,6 +25,7 @@ public class YmlConfigBuilder extends BaseBuilder {
     public YmlConfigBuilder(Properties properties) {
         // 第一步解析配置文件
         this.environmentsElement(properties);
+        //生成对应的数据源
         this.dataSourceElement(this.configuration);
     }
 

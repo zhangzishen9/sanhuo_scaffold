@@ -4,7 +4,7 @@
 
 
     <groupId>com.sanhuo</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>sanhuo_scaffold</artifactId>
     <version>${sanhuo.version}</version>
     <packaging>pom</packaging>
 

@@ -1,8 +1,8 @@
 package com.sanhuo.test.mapper;
 
 
-import com.sanhuo.persistent.mapper.annotation.Mapper;
-import com.sanhuo.persistent.mapper.annotation.Select;
+import com.sanhuo.persistent.binding.annotation.Mapper;
+import com.sanhuo.persistent.binding.annotation.Select;
 
 /**
  * TestMapperOne

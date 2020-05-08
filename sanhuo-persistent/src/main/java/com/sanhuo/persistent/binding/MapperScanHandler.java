@@ -1,20 +1,18 @@
-package com.sanhuo.persistent.mapper;
+package com.sanhuo.persistent.binding;
 
-import com.sanhuo.persistent.mapper.annotation.Mapper;
-import com.sanhuo.persistent.mapper.proxy.MapperProxyFactory;
+import com.sanhuo.persistent.binding.annotation.Mapper;
+import com.sanhuo.persistent.binding.proxy.MapperProxyFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
-import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 import java.util.Set;
 
 /**
- * MapperScanHandler
+ * 扫描mapper并放到ioc容器
  *
  * @author sanhuo
  * @date 2020/3/1 0001 下午 21:57

@@ -1,11 +1,11 @@
-package com.sanhuo.persistent.mapper.proxy;
+package com.sanhuo.persistent.binding.proxy;
 
 import org.springframework.beans.factory.FactoryBean;
 
 import java.lang.reflect.Proxy;
 
 /**
- * MapperProxyFactory
+ *  mapper代理类的factoryBean
  *
  * @author sanhuo
  * @date 2020/3/2 0002 下午 21:24

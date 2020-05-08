@@ -1,4 +1,4 @@
-package com.sanhuo.persistent.mapper.annotation;
+package com.sanhuo.persistent.binding.annotation;
 
 import java.lang.annotation.*;
 

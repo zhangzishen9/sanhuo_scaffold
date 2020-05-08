@@ -1,11 +1,7 @@
 package com.sanhuo.test;
 
-import com.sanhuo.persistent.mapper.annotation.MapperScan;
-import com.sanhuo.persistent.session.SqlSession;
-import com.sanhuo.persistent.session.SqlSessionFactory;
-import com.sanhuo.persistent.session.SqlSessionFactoryBuilder;
+import com.sanhuo.persistent.EnableSanHuoPersistent;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -15,9 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, RedisAutoConfiguration.class})
 @EnableEurekaClient
 @ComponentScan("com.sanhuo")
-@MapperScan("com.sanhuo.test")
+@EnableSanHuoPersistent("com.sanhuo.test")
 public class TestApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(TestApplication.class, args);
 

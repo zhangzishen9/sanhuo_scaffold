@@ -1,0 +1,36 @@
+@startuml
+:Springboot启动;
+
+:启动类上 <b>@EnableSanHuoPersistent</b> 注解;
+
+
+note right
+通过启动类的<b>@EnableSanHuoPersistent</b>注解
+  声明启动sanhuo-persistent
+  调用SanhuoPersistenInit类
+end note
+
+:SanhuoPersistentInit类;
+
+note left
+====
+* 扫描mapper包生成代理类注入容器
+* 解析mapper里面的sql语句
+* 调用SqlSessionFactoryBuilder
+end note
+
+:SqlSessionFactoryBuilder;
+note right
+通过parse 调用YmlConfigBuilder生成configuration
+end note
+
+
+note left
+<b><font color=red>YmlConfigBuilder
+====
+* dataSourceElement( ) 数据源解析
+end note
+
+:SqlSessionFactory;
+
+@enduml
