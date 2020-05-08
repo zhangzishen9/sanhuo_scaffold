@@ -1,0 +1,17 @@
+persistend:
+  dataSource:
+    type: POOL
+    profiles: dev
+    dataSourceProperties:
+      - id: dev
+        driver: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://106.54.208.155:3306/sanhuo?serverTimezone=GMT%2B8
+        password: gsj4yw7.
+        username: sanhuo
+      - id: product
+        driver: product_driver
+        url: product_url
+        password: product_password
+        username: product_username
+#  typeAliases:
+#    typeAliase: 123
