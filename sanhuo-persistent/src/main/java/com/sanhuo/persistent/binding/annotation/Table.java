@@ -1,4 +1,5 @@
-package com.sanhuo.persistent.annotation;
+package com.sanhuo.persistent.binding.annotation;
+
 
 import java.lang.annotation.*;
 
@@ -8,4 +9,5 @@ import java.lang.annotation.*;
 public @interface Table {
 
     String value();
+
 }

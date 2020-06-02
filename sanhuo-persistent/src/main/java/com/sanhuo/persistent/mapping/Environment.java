@@ -17,7 +17,7 @@ public class Environment {
 
     public Environment(String id, DataSource dataSource) {
         if (id == null) {
-            throw new IllegalArgumentException("Environment's Id cannot be empty");
+            throw new IllegalArgumentException("Environment's Identifier cannot be empty");
         }
         this.id = id;
         if (dataSource == null) {

@@ -91,7 +91,9 @@ public class TypeAliasRegistry {
 
     }
 
-    //解析类型别名
+    /**
+     * 解析类型别名
+     */
     public <T> Class<T> resolveAlias(String string) {
         try {
             if (string == null) {
@@ -114,7 +116,9 @@ public class TypeAliasRegistry {
     }
 
 
-    //注册类型别名
+    /**
+     * 注册类型别名
+     */
     public void registerAlias(String alias, Class<?> value) {
         if (alias == null) {
             throw new TypeException("The parameter alias cannot be null");

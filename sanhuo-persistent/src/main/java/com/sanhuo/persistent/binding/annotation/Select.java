@@ -1,5 +1,7 @@
 package com.sanhuo.persistent.binding.annotation;
 
+import com.sanhuo.persistent.binding.property.SqlType;
+
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -8,4 +10,6 @@ import java.lang.annotation.*;
 public @interface Select {
 
     String value();
+
+
 }

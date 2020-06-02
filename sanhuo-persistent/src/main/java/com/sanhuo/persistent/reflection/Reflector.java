@@ -84,15 +84,11 @@ public class Reflector {
         //遍历 类+ 父类 的所有字段
         while (currentClazz != null) {
             //添加当前类的字段
-            fields.addAll(
-                    Arrays.asList(currentClazz.getDeclaredFields())
-            );
+            fields.addAll(Arrays.asList(currentClazz.getDeclaredFields()));
             Class<?>[] interfaces = clazz.getInterfaces();
             for (Class<?> anInterface : interfaces) {
                 //添加当前类的实现的所有接口的字段
-                fields.addAll(
-                        Arrays.asList(anInterface.getDeclaredFields())
-                );
+                fields.addAll(Arrays.asList(anInterface.getDeclaredFields()));
             }
             //当前类替换为父类
             currentClazz = currentClazz.getSuperclass();

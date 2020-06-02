@@ -1,9 +1,13 @@
 package com.sanhuo.commom.manager;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,11 +17,14 @@ import org.springframework.stereotype.Component;
  * @date 2020/3/1 0001 下午 19:34
  */
 @Component
-public class SpringManager {
+@Order(value = 1)
+public class SpringManager implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    public SpringManager(ApplicationContext applicationContext) {
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
@@ -40,4 +47,6 @@ public class SpringManager {
         beanDefinition.setBeanClassName(className);
         beanFactory.registerSingleton(className, singletonBean);
     }
+
+
 }

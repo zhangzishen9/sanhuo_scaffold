@@ -20,11 +20,6 @@
     </properties>
 
     <dependencies>
-        <!--jdbc -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
 
         <!-- 数据库连接驱动 -->
         <dependency>

@@ -1,5 +1,6 @@
 package com.sanhuo.persistent.type;
 
+import javax.validation.constraints.Null;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;

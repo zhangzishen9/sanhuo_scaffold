@@ -15,6 +15,9 @@ end note
 note left
 ====
 * 扫描mapper包生成代理类注入容器
+* 解析mapper映射的entity
+* 解析entity所对应的表名
+* 解析entity的属性名称/类型 对应的数据库名称 类型
 * 解析mapper里面的sql语句
 * 调用SqlSessionFactoryBuilder
 end note

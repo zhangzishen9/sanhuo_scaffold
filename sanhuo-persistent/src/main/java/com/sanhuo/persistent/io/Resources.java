@@ -22,14 +22,14 @@ public class Resources {
         return classLoaderWrapper.defaultClassLoader;
     }
 
-    /*
+    /**
      * 传入classLoaderWrapper使用的默认类加载器
      */
     public static void setDefaultClassLoader(ClassLoader defaultClassLoader) {
         classLoaderWrapper.defaultClassLoader = defaultClassLoader;
     }
 
-    /*
+    /**
      * 根据ClassName生成class
      */
     public static Class<?> classForName(String className) throws ClassNotFoundException {
