@@ -67,7 +67,7 @@ public class MapperAnnotationBuilder {
         if (!configuration.isResourceLoaded(resource)) {
             configuration.addLoadedResource(resource);
             //TODO 处理缓存
-            Method[] methods = type.getMethods();
+            Method[] methods = type.getDeclaredMethods();
             for (Method method : methods) {
                 if (!method.isBridge()) {
                     parseStatement(method);
@@ -88,6 +88,9 @@ public class MapperAnnotationBuilder {
         List<ParameterMapping> parameterMappings = this.parseParameterMapping(parameterTypes);
         //获取sql
         String sql = this.getSqlFromAnnotations(method);
+        if (StringUtil.isBlank(sql)) {
+            return;
+        }
         //构建sqlSource对象
         SqlSource sqlSource = this.sqlSourceBuilder.parse(sql, parameterMappings);
         //获取method的Result注解,构建结果映射
@@ -99,6 +102,7 @@ public class MapperAnnotationBuilder {
                 .id(id)
                 .resultMapping(resultMapping)
                 .build();
+        this.configuration.addMappedStatement(id, mappedStatement);
 
     }
 
@@ -115,8 +119,9 @@ public class MapperAnnotationBuilder {
             //直接拿method对应的实体类作为返回值
             Class<?> returnType = method.getReturnType();
             //如果实体类和mapper解析的实体一样,直接拿mapper解析的实体对应的资料
-            if (returnType.equals(this.type)) {
-                TableProperty tableProperty = this.configuration.getEntityParsing(this.type);
+            Class mappedEntity = this.configuration.getMappedEntity(this.type);
+            if (returnType.equals(mappedEntity)) {
+                TableProperty tableProperty = this.configuration.getEntityParsing(mappedEntity);
                 //字段解析
                 Map<String, ColumnProperty> columnPropertyMap = tableProperty.getColumns();
                 List<ResultMapping.Result> results = new LinkedList<>();
@@ -143,7 +148,7 @@ public class MapperAnnotationBuilder {
      * @param parameters
      * @return
      */
-    public List<ParameterMapping> parseParameterMapping(Parameter[] parameters) {
+    private List<ParameterMapping> parseParameterMapping(Parameter[] parameters) {
         List<ParameterMapping> parameterMappings = new LinkedList<>();
         //参数的顺序
         int index = 1;

@@ -6,6 +6,7 @@ import com.sanhuo.persistent.binding.annotation.Identifier;
 import com.sanhuo.persistent.binding.annotation.Table;
 import com.sanhuo.persistent.binding.property.ColumnProperty;
 import com.sanhuo.persistent.binding.property.TableProperty;
+import com.sanhuo.persistent.reflection.Reflector;
 import com.sanhuo.persistent.reflection.meta.MetaObject;
 import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.persistent.type.JdbcType;
@@ -32,7 +33,7 @@ public class EntityParsingAssistant {
 
     private Class entity;
 
-    private MetaObject metaObject;
+    private List<Field> fields;
 
     private Configuration configuration;
 
@@ -44,7 +45,8 @@ public class EntityParsingAssistant {
         this.tableProperty = tableProperty;
         this.entity = entity;
         this.tableProperty.setEntity(entity);
-        this.metaObject = MetaObject.init(entity);
+        this.fields = Reflector.getClassField(entity);
+        this.configuration = configuration;
     }
 
     /**
@@ -78,8 +80,7 @@ public class EntityParsingAssistant {
      */
     private void parseFields() {
         //实体的字段映射
-        Map<String, ColumnProperty> columns = new HashMap<>(metaObject.getFields().size());
-        List<Field> fields = metaObject.getFields();
+        Map<String, ColumnProperty> columns = new HashMap<>(fields.size());
         fields.stream().forEach(field -> {
             String fieldName = field.getName();
             Class javaType = field.getType();

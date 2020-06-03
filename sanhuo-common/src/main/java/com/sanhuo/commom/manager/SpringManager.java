@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- * 容器管理工具
+ * 基于ApplicationContext容器管理工具
  *
  * @author sanhuo
  * @date 2020/3/1 0001 下午 19:34
@@ -28,11 +28,20 @@ public class SpringManager implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-
+    /**
+     * 从容器里获取bean
+     *
+     * @return
+     */
     public static <T> T getBean(Class<T> clazz) {
         return applicationContext.getBean(clazz);
     }
 
+    /**
+     * 注册单例bean到ioc容器里
+     *
+     * @param <T>
+     */
     public static <T> void registerSingleton(Object singletonBean) {
         if (singletonBean == null) {
             return;
@@ -42,9 +51,6 @@ public class SpringManager implements ApplicationContextAware {
         if (beanFactory == null) {
             beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
         }
-        BeanDefinition beanDefinition = new GenericBeanDefinition();
-
-        beanDefinition.setBeanClassName(className);
         beanFactory.registerSingleton(className, singletonBean);
     }
 

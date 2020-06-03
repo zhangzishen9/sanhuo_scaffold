@@ -94,8 +94,8 @@ public class SqlSourceBuilder {
                         builder.append(handleToken(content, index++));
                         offset = end + CLOSE_TOKEN.length();
                     }
+                    start = sql.indexOf(OPEN_TOKEN, offset);
                 }
-                start = sql.indexOf(OPEN_TOKEN, offset);
                 if (offset < src.length) {
                     builder.append(src, offset, src.length - offset);
                 }
@@ -129,6 +129,7 @@ public class SqlSourceBuilder {
                 Map<Integer, ParameterMapping> params
                         = sqlSource.getParams() == null ? new HashMap<>() : sqlSource.getParams();
                 params.put(index, this.parameterMappingMap.get(content));
+                sqlSource.setParams(params);
             }
         }
     }

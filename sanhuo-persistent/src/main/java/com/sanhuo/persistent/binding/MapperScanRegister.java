@@ -1,8 +1,10 @@
 package com.sanhuo.persistent.binding;
 
 import com.sanhuo.commom.manager.SpringManager;
+import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.persistent.session.SqlSessionFactory;
 import com.sanhuo.persistent.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.io.ResourceLoader;
@@ -22,13 +24,12 @@ public class MapperScanRegister {
     private static final String PACKAGE = "value";
 
 
-
-    public static void registerMapper(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry, ResourceLoader resourceLoader) {
+    public static void registerMapper(Configuration configuration, AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry, ResourceLoader resourceLoader) {
         AnnotationAttributes annotationAttributes = AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(EnableSanHuoPersistent.class.getName()));
         if (annotationAttributes != null) {
             String[] basePackages = annotationAttributes.getStringArray(PACKAGE);
             //类扫描实现
-            MapperScanHandler scanHandle = new MapperScanHandler(beanDefinitionRegistry, false);
+            MapperScanHandler scanHandle = new MapperScanHandler(beanDefinitionRegistry, configuration, false);
             scanHandle.setResourceLoader(resourceLoader);
             scanHandle.doScan(basePackages);
 

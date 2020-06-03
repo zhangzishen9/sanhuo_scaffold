@@ -61,6 +61,7 @@ public class Configuration {
     /**
      * mapper和entity的映射关系
      */
+    @Getter
     private final Map<Class, Class> mappedEntities = new HashMap<>();
 
     /**
@@ -71,9 +72,18 @@ public class Configuration {
         //TODO 判断是否重复,是的话抛异常
     }
 
+    public Class getMappedEntity(Class mapper) {
+        if (this.mappedEntities.containsKey(mapper)) {
+            return mappedEntities.get(mapper);
+        }
+        //todo  处理
+        return null;
+    }
+
     /**
      * 实体类映射到数据库的对应属性
      */
+    @Getter
     private final Map<Class, TableProperty> entityPropertyMap = new HashMap<>();
 
     /**
@@ -102,6 +112,7 @@ public class Configuration {
     /**
      * 映射的语句
      */
+    @Getter
     private final Map<String, MappedStatement> mappedStatements = new HashMap<>();
 
     /**
@@ -131,6 +142,7 @@ public class Configuration {
     /**
      * 已经解析过的mapper
      */
+    @Getter
     private final Set<String> loadedResource = new HashSet<>();
 
     /**

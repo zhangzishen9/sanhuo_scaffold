@@ -3,6 +3,7 @@ package com.sanhuo.test;
 import com.sanhuo.commom.manager.SpringManager;
 import com.sanhuo.persistent.EnableSanHuoPersistent;
 import com.sanhuo.persistent.session.Configuration;
+import com.sanhuo.persistent.session.SqlSessionFactory;
 import com.sanhuo.test.mapper.PersonMapper;
 import com.sanhuo.test.mapper.TestMapperOne;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,11 @@ public class TestController {
 
     @RequestMapping("/test")
     public void test() {
-        Configuration configuration = SpringManager.getBean(Configuration.class);
+        Configuration configuration = SpringManager.getBean(SqlSessionFactory.class).getConfiguration();
         System.out.println(1);
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         SpringApplication.run(TestController.class, args);
-//        Class.forName("com.mysql.cj.jdbc.Driver");
-//        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8", "root", "123456");
-//        PreparedStatement pst = connection.prepareStatement("select * from person");
-//        ResultSet result = pst.executeQuery();
-//        System.out.println(1);
     }
 }

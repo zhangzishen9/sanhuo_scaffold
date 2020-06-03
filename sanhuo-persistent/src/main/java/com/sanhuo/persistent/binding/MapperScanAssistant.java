@@ -3,6 +3,7 @@ package com.sanhuo.persistent.binding;
 import com.sanhuo.persistent.binding.annotation.Entity;
 import com.sanhuo.persistent.binding.annotation.Mapper;
 import com.sanhuo.persistent.binding.property.TableProperty;
+import com.sanhuo.persistent.builder.config.annotation.MapperAnnotationBuilder;
 import com.sanhuo.persistent.session.Configuration;
 
 import java.lang.annotation.Annotation;
@@ -38,7 +39,13 @@ public class MapperScanAssistant {
                 this.configuration.addMappedEntity(target, entity);
                 //解析实体
                 this.handlerEntity(entity);
+                //解析mapper里面的方法
+                MapperAnnotationBuilder mapperAnnotationBuilder
+                        = new MapperAnnotationBuilder(this.configuration,target);
+                mapperAnnotationBuilder.parse();
                 return true;
+            }else{
+                //todo 抛异常
             }
         }
         return false;

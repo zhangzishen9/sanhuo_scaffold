@@ -82,7 +82,7 @@ public class Reflector {
         List<Field> fields = new LinkedList<>();
         Class<?> currentClazz = clazz;
         //遍历 类+ 父类 的所有字段
-        while (currentClazz != null) {
+        while (currentClazz != null && !currentClazz.equals(Object.class)) {
             //添加当前类的字段
             fields.addAll(Arrays.asList(currentClazz.getDeclaredFields()));
             Class<?>[] interfaces = clazz.getInterfaces();

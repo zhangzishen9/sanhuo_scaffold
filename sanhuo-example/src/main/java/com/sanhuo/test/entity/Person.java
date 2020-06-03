@@ -5,7 +5,6 @@ import com.sanhuo.persistent.binding.annotation.Entity;
 import com.sanhuo.persistent.binding.annotation.Identifier;
 import com.sanhuo.persistent.binding.annotation.Table;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 /**
  * <p>

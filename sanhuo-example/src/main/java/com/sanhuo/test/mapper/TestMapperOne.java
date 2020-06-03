@@ -25,12 +25,12 @@ public class TestMapperOne {
 
 
     public static void main(String[] args) throws NoSuchMethodException {
-        SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(Configuration.init());
-        Method method = TestMapperOne.class.getDeclaredMethod("findById",Integer.class);
-        Parameter[] p =  method.getParameters();
-        MapperAnnotationBuilder mapperAnnotationBuilder = new MapperAnnotationBuilder(Configuration.init(),TestMapperOne.class);
-        sqlSourceBuilder.parse("select * from person where id = #{id}",mapperAnnotationBuilder.parseParameterMapping(p));
-        System.out.println(p);
+//        SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(Configuration.init());
+//        Method method = TestMapperOne.class.getDeclaredMethod("findById",Integer.class);
+//        Parameter[] p =  method.getParameters();
+//        MapperAnnotationBuilder mapperAnnotationBuilder = new MapperAnnotationBuilder(Configuration.init(),TestMapperOne.class);
+//        sqlSourceBuilder.parse("select * from person where id = #{id}",mapperAnnotationBuilder.parseParameterMapping(p));
+//        System.out.println(p);
 
     }
 

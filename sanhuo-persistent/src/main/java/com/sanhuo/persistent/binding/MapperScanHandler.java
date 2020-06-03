@@ -1,5 +1,6 @@
 package com.sanhuo.persistent.binding;
 
+import com.sanhuo.commom.manager.SpringBasicManager;
 import com.sanhuo.commom.manager.SpringManager;
 import com.sanhuo.persistent.binding.annotation.Mapper;
 import com.sanhuo.persistent.binding.proxy.MapperProxyFactory;
@@ -27,9 +28,9 @@ public class MapperScanHandler extends ClassPathBeanDefinitionScanner {
     private final MapperScanAssistant mapperScanAssistant;
 
 
-    public MapperScanHandler(BeanDefinitionRegistry registry, boolean useDefaultFilters) {
+    public MapperScanHandler(BeanDefinitionRegistry registry, Configuration configuration, boolean useDefaultFilters) {
         super(registry, useDefaultFilters);
-        this.configuration = SpringManager.getBean(SqlSessionFactory.class).getConfiguration();
+        this.configuration = configuration;
         this.mapperScanAssistant = new MapperScanAssistant(this.configuration);
     }
 
@@ -52,7 +53,13 @@ public class MapperScanHandler extends ClassPathBeanDefinitionScanner {
         beanDefinitionHolders.stream().forEach(beanDefinitionHolder -> {
             GenericBeanDefinition genericBeanDefinition = (GenericBeanDefinition) beanDefinitionHolder.getBeanDefinition();
             //mapper类
-            Class mapperClass = genericBeanDefinition.getBeanClass();
+            Class mapperClass = null;
+            try {
+                mapperClass = Class.forName(genericBeanDefinition.getBeanClassName());
+            } catch (ClassNotFoundException e) {
+                //todo
+                e.printStackTrace();
+            }
             //校验mapper是否合法,合法才生成代理类
             if (mapperScanAssistant.verifyMappedEntityValid(mapperClass)) {
                 //获取接口
@@ -61,6 +68,8 @@ public class MapperScanHandler extends ClassPathBeanDefinitionScanner {
                 genericBeanDefinition.getConstructorArgumentValues().addGenericArgumentValue(mapper);
                 // 修改BeanClass
                 genericBeanDefinition.setBeanClass(MapperProxyFactory.class);
+                genericBeanDefinition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_TYPE);
+
             }
         });
     }

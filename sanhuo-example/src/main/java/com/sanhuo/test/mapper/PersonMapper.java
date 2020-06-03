@@ -11,7 +11,7 @@ import com.sanhuo.test.entity.Person;
  * @author sanhuo
  * @date 2020/3/1 0001 下午 17:48
  */
-@Mapper(TestMapperOne.class)
+@Mapper(Person.class)
 public interface PersonMapper {
 
 

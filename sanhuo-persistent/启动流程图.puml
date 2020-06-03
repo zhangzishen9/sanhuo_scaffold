@@ -5,14 +5,17 @@
 
 
 note right
+====
 通过启动类的<b>@EnableSanHuoPersistent</b>注解
   声明启动sanhuo-persistent
   调用SanhuoPersistenInit类
+  (因为@EnableSanHuoPersistent上有@Import注解,所以会进入SanhuoPersistentInit类)
 end note
 
 :容器初始化Refresh;
 
 note right
+====
 invokeBeanFactoryPostProcessors() 方法进行一些容器初始化的前置操作
 这一步会进去SanhuoPersistenInt类的registerBeanDefinitions()方法
 end note
@@ -21,42 +24,48 @@ end note
 
 note left
 ====
+* 初始化SqlSessionFactory和Configuration注入容器
 * 扫描mapper包生成代理类注入容器
-* 解析mapper映射的entity
-* 解析entity所对应的表名
-* 解析entity的属性名称/类型 对应的数据库名称 类型
-* 解析mapper里面的sql语句
-* 调用SqlSessionFactoryBuilder生成SqlSessionFactory
-* 将SqlSessionFactory注入容器里
 end note
 
-:SqlSessionFactory;
+:SqlSessionFactoryBuilder;
 
 note left
+====
 初始化Configuration 跟着整个生命周期走的类 包含了所有的解析
-Configuration在SqlSessionFactory中
-SqlSessionFacotry是单例的 需要在上一步注入到容器
+初始化SqlSessionFactory
+使用BeanFactory而不是ApplicationContext来把SqlSessionFactory注入单例模式到容器里
+因为该阶段BeanFactory初始化了而ApplicationContext还未初始化
 end note
-
-:SqlSession;
-
-
 
 :MapperScanHandler;
 
 note right
-
-涉及到ClassPathBeanDefinitionScanner类和 beanDefinitionHolders
-是一些类扫描的操作
-这里执行doScan()方法 实现我们的自定义扫描包并进行接口的代理类生成
-需要用到configuration,所以需要从容器中获取sqlSessionFactory再获取其中的configuration
+====
+继承了ClassPathBeanDefinitionScanner类,用于自定义包扫描
+主要用到beanDefinitionHolders,包括了Bean初始化的一些信息
+修改beanDefinitionHolder里的factoryBean来调整对应接口的实现
+通过修改beanDefinitionHolder,我们只需要建接口写好方法加上注解
+就可以自动生成代理类注入到容器里供其他地方使用@Autowire注入
 end note
 
+:MapperScanRegister;
+
+note left
+====
+* 解析mapper映射的entity
+* 解析entity所对应的表名
+* 解析entity的属性名称/类型 对应的数据库名称 类型以及对应的类型转换器
+* 解析mapper里面的sql语句(包括出参,结果映射,SQL语句解析)
+* 生成mapper的代理类
+
+end note
 :容器初始化完成;
 
 
 
 note right
+====
 通过parse 调用YmlConfigBuilder生成configuration
 end note
 

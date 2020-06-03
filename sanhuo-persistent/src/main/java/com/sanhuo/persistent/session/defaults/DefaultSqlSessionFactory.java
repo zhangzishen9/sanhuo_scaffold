@@ -3,6 +3,7 @@ package com.sanhuo.persistent.session.defaults;
 import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.persistent.session.SqlSession;
 import com.sanhuo.persistent.session.SqlSessionFactory;
+import lombok.Data;
 
 /**
  * SqlSession的默认工厂
@@ -10,6 +11,7 @@ import com.sanhuo.persistent.session.SqlSessionFactory;
  * @author sanhuo
  * @date 2020/2/23 0023 下午 17:15
  */
+@Data
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
     private Configuration configuration;
@@ -25,6 +27,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
     @Override
     public Configuration getConfiguration() {
-        return null;
+        return this.configuration;
     }
 }

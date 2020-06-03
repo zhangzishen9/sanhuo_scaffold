@@ -5,6 +5,7 @@ import com.sanhuo.persistent.datasource.unpooled.UnPooledDataSourceFactory;
 import com.sanhuo.persistent.enums.DataSourceType;
 import com.sanhuo.persistent.exception.TypeException;
 import com.sanhuo.persistent.io.Resources;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
