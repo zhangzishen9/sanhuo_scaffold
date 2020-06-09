@@ -14,14 +14,14 @@ import java.util.Map;
  * @author sanhuo
  * @createTime 2020/5/11:20:55
  */
-@Data
-public class SqlSource {
+public interface SqlSource {
+
+
     /**
-     * #{}解析为?后的sql
+     * 解析后的sql对象
+     *
+     * @param parameterObject
+     * @return
      */
-    private String sql;
-    /**
-     * #{}里的参数列表
-     */
-    private Map<Integer,ParameterMapping> params;
+    BoundSql getBoundSql(Object parameterObject);
 }

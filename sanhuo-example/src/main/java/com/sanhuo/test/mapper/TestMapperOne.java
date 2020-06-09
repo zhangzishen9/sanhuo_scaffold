@@ -1,6 +1,7 @@
 package com.sanhuo.test.mapper;
 
 
+import com.sanhuo.commom.utils.ObjectUtil;
 import com.sanhuo.persistent.binding.annotation.Mapper;
 import com.sanhuo.persistent.binding.annotation.Select;
 import com.sanhuo.persistent.builder.SqlSourceBuilder;
@@ -24,6 +25,7 @@ public class TestMapperOne {
     private void findById(Integer id){};
 
 
+    private int test(){return 1;};
     public static void main(String[] args) throws NoSuchMethodException {
 //        SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(Configuration.init());
 //        Method method = TestMapperOne.class.getDeclaredMethod("findById",Integer.class);
@@ -31,6 +33,10 @@ public class TestMapperOne {
 //        MapperAnnotationBuilder mapperAnnotationBuilder = new MapperAnnotationBuilder(Configuration.init(),TestMapperOne.class);
 //        sqlSourceBuilder.parse("select * from person where id = #{id}",mapperAnnotationBuilder.parseParameterMapping(p));
 //        System.out.println(p);
+        Method method = TestMapperOne.class.getDeclaredMethod("test");
+        Class type = method.getReturnType();
+        System.out.println(ObjectUtil.isPrimitive(type));
+        System.out.println(1);
 
     }
 

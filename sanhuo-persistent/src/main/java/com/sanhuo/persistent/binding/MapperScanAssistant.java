@@ -35,26 +35,27 @@ public class MapperScanAssistant {
             Annotation entityAnnotation
                     = entity.getAnnotation(Entity.class);
             if (entityAnnotation != null) {
+
+                /**
+                 * 解析mapper里面的方法
+                 */
+
                 //加入mapper和实体的映射关系到缓存里
                 this.configuration.addMappedEntity(target, entity);
-                //解析实体
+
+                //解析mapper映射的实体
                 this.handlerEntity(entity);
+
                 //解析mapper里面的方法
                 MapperAnnotationBuilder mapperAnnotationBuilder
-                        = new MapperAnnotationBuilder(this.configuration,target);
+                        = new MapperAnnotationBuilder(this.configuration, target);
                 mapperAnnotationBuilder.parse();
                 return true;
-            }else{
+            } else {
                 //todo 抛异常
             }
         }
         return false;
-    }
-
-
-    public static void test(Object i) {
-        Class c = i.getClass();
-        System.out.println(i.getClass());
     }
 
     /**

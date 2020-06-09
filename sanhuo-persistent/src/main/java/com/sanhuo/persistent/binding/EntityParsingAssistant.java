@@ -55,7 +55,9 @@ public class EntityParsingAssistant {
      * @return
      */
     public TableProperty parse() {
+        //解析表名
         this.parseTableName();
+        //解析表字段
         this.parseFields();
         return tableProperty;
     }
@@ -65,12 +67,13 @@ public class EntityParsingAssistant {
      */
     private void parseTableName() {
         Table table = (Table) entity.getAnnotation(Table.class);
-        if (table == null) {
-            //todo 处理
-        }
-        String tableName = table.value();
-        if (StringUtil.isBlank(tableName)) {
-            //todo 处理
+        String tableName;
+        // @Table注解不为空和@Table.value不为空 以value的值为表名
+        if (table != null && StringUtil.isNotBlank(table.value())) {
+            tableName = table.value();
+        } else {
+            //类名驼峰转下横线 PersonInfo -> person_info 为表名
+            tableName = StringUtil.uder2Camel(entity.getSimpleName());
         }
         this.tableProperty.setTableName(tableName);
     }

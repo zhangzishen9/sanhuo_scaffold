@@ -1,6 +1,7 @@
 package com.sanhuo.persistent.builder.config.annotation;
 
 import com.sanhuo.commom.utils.StringUtil;
+import com.sanhuo.persistent.binding.ResultMappingHandler;
 import com.sanhuo.persistent.binding.annotation.*;
 import com.sanhuo.persistent.binding.property.ColumnProperty;
 import com.sanhuo.persistent.binding.property.ResultMapping;
@@ -28,7 +29,6 @@ import java.util.*;
  */
 public class MapperAnnotationBuilder {
 
-    private static final Set<Class<? extends Annotation>> SQL_PROVIDER_ANNOTATION_TYPES = new HashSet<Class<? extends Annotation>>();
 
     private final Configuration configuration;
     /**
@@ -47,16 +47,17 @@ public class MapperAnnotationBuilder {
 
     private final MappedStatement.MappedStatementBuilder mappedStatementBuilder;
 
+    /**
+     * 结果映射处理器
+     */
+    private final ResultMappingHandler resultMappingHandler;
+
     public MapperAnnotationBuilder(Configuration configuration, Class<?> type) {
-        String resource = type.getName().replace('.', '/') + ".java (best guess)";
         this.configuration = configuration;
         this.sqlSourceBuilder = new SqlSourceBuilder(configuration);
         this.type = type;
         this.mappedStatementBuilder = MappedStatement.builder().resource(type);
-        SQL_PROVIDER_ANNOTATION_TYPES.add(SelectProvider.class);
-        SQL_PROVIDER_ANNOTATION_TYPES.add(InsertProvider.class);
-        SQL_PROVIDER_ANNOTATION_TYPES.add(UpdateProvider.class);
-        SQL_PROVIDER_ANNOTATION_TYPES.add(DeleteProvider.class);
+        this.resultMappingHandler = new ResultMappingHandler();
     }
 
     /**
@@ -87,14 +88,9 @@ public class MapperAnnotationBuilder {
         //获取method的参数,构建参数映射
         List<ParameterMapping> parameterMappings = this.parseParameterMapping(parameterTypes);
         //获取sql
-        String sql = this.getSqlFromAnnotations(method);
-        if (StringUtil.isBlank(sql)) {
-            return;
-        }
-        //构建sqlSource对象
-        SqlSource sqlSource = this.sqlSourceBuilder.parse(sql, parameterMappings);
+        SqlSource sqlSource = this.getSqlFromAnnotations(method, parameterMappings);
         //获取method的Result注解,构建结果映射
-        ResultMapping resultMapping = this.parseResultMapping(method);
+        ResultMapping resultMapping = resultMappingHandler.parse(method, this.type);
         //方法的签名
         String id = Reflector.getSignature(method);
         //构建mapperstatement
@@ -106,41 +102,6 @@ public class MapperAnnotationBuilder {
 
     }
 
-    /**
-     * 解析结果映射
-     *
-     * @param method
-     * @return
-     */
-    private ResultMapping parseResultMapping(Method method) {
-        Results resultsAnnotation = getResultsAnnotation(method);
-        ResultMapping.ResultMappingBuilder builder = ResultMapping.builder();
-        if (resultsAnnotation == null) {
-            //直接拿method对应的实体类作为返回值
-            Class<?> returnType = method.getReturnType();
-            //如果实体类和mapper解析的实体一样,直接拿mapper解析的实体对应的资料
-            Class mappedEntity = this.configuration.getMappedEntity(this.type);
-            if (returnType.equals(mappedEntity)) {
-                TableProperty tableProperty = this.configuration.getEntityParsing(mappedEntity);
-                //字段解析
-                Map<String, ColumnProperty> columnPropertyMap = tableProperty.getColumns();
-                List<ResultMapping.Result> results = new LinkedList<>();
-                columnPropertyMap.entrySet().stream().forEach(entry -> {
-                    ColumnProperty columnProperty = entry.getValue();
-                    ResultMapping.Result result = ResultMapping.Result.builder()
-                            .columnName(columnProperty.getColumnName())
-                            .fieldName(columnProperty.getFieldName())
-                            .typeHandler(columnProperty.getTypeHandler())
-                            .build();
-                    results.add(result);
-                });
-                return builder.columns(results).build();
-            }
-            //todo 解析对应的实体类
-
-        }//todo 解析results注解
-        return null;
-    }
 
     /**
      * 解析参数映射
@@ -200,27 +161,33 @@ public class MapperAnnotationBuilder {
      * @param method
      * @return
      */
-    private String getSqlFromAnnotations(Method method) {
+    private SqlSource getSqlFromAnnotations(Method method, List<ParameterMapping> parameterMappings) {
         //找出配置在method中的SQL指令类型注解，就是 {@link Select},{@link Insert},{@link Update},{@link Delete}
         Class<? extends Annotation> sqlAnnotationType = getSqlAnnotationType(method);
         if (sqlAnnotationType != null) {
-            //如果有配置SQL provide注解
-
-            //都没有 抛出异常
-
             //有,获取该注解
             Annotation sqlAnnotation = method.getAnnotation(sqlAnnotationType);
             //同过反射的方式取出SQL指令类型注解的value方法的返回值
             final String originSql;
             try {
-                return (String) sqlAnnotation.getClass().getMethod("value").invoke(sqlAnnotation);
+                originSql = (String) sqlAnnotation.getClass().getMethod("value").invoke(sqlAnnotation);
+                return sqlSourceBuilder.parse(originSql, parameterMappings, null);
             } catch (Exception e) {
                 //todo 处理
                 e.printStackTrace();
             }
 
-        }
+        } else {
+            Class<? extends Annotation> sqlProviderAnnotationType = getSqlProviderAnnotationType(method);
+            if (sqlProviderAnnotationType != null) {
+                //有,获取该注解
+                Annotation sqlProviderAnnotation = method.getAnnotation(sqlProviderAnnotationType);
+                return sqlSourceBuilder.parse(null, parameterMappings, sqlProviderAnnotation);
+            } else {
+                //todo 都没有 抛出异常
 
+            }
+        }
         return null;
     }
 
@@ -234,15 +201,16 @@ public class MapperAnnotationBuilder {
      */
     private Class<? extends Annotation> getSqlAnnotationType(Method method) {
         for (SqlType type : SqlType.class.getEnumConstants()) {
-            Annotation annotation = method.getAnnotation(type.getValue());
+            Annotation annotation = method.getAnnotation(type.getBasic());
             if (annotation != null) {
                 //当前的sql类型
                 mappedStatementBuilder.sqlType(type);
-                return type.getValue();
+                return type.getBasic();
             }
         }
         return null;
     }
+
 
     /**
      * 获取provider类的注解
@@ -250,16 +218,16 @@ public class MapperAnnotationBuilder {
      * @param method
      * @return
      */
-    private Annotation getSqlProviderAnnotationType(Method method) {
+    private Class<? extends Annotation> getSqlProviderAnnotationType(Method method) {
+        for (SqlType type : SqlType.class.getEnumConstants()) {
+            Annotation annotation = method.getAnnotation(type.getProvider());
+            if (annotation != null) {
+                //当前的sql类型
+                mappedStatementBuilder.sqlType(type);
+                return type.getProvider();
+            }
+        }
         return null;
-    }
-
-    /**
-     * 获取resultMap注解
-     */
-    private Results getResultsAnnotation(Method method) {
-        Results result = method.getAnnotation(Results.class);
-        return result != null ? result : null;
     }
 
 

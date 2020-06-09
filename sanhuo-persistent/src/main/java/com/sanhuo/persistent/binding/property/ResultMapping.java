@@ -27,6 +27,11 @@ public class ResultMapping {
     private List<Result> columns;
 
     /**
+     * 结果对应的bean
+     */
+    private Class<?> type;
+
+    /**
      * 结果映射的每行
      */
     @Data
