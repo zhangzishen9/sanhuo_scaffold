@@ -1,6 +1,4 @@
-package com.sanhuo.commom.utils;
-
-import org.springframework.stereotype.Component;
+package com.sanhuo.commom.basic;
 
 import java.util.*;
 

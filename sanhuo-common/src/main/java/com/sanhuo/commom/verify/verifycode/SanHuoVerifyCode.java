@@ -1,4 +1,4 @@
-package com.sanhuo.commom.utils;
+package com.sanhuo.commom.verify.verifycode;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.util.Random;
 
 //TODO 谷歌有自己的验证码包
-public class VerifyCode {
+public class SanHuoVerifyCode {
 
     private int width = 100;
     private int high = 40;
@@ -94,7 +94,6 @@ public class VerifyCode {
     public String getText() {
         return text;
     }
-
 
     public static void output(BufferedImage image, OutputStream out) throws IOException {
         ImageIO.write(image, "JPEG", out);

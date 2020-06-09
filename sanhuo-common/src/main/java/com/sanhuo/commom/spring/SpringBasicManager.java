@@ -1,4 +1,4 @@
-package com.sanhuo.commom.manager;
+package com.sanhuo.commom.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;

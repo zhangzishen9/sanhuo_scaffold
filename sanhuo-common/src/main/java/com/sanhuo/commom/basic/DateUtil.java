@@ -1,4 +1,4 @@
-package com.sanhuo.commom.utils;
+package com.sanhuo.commom.basic;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

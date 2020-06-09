@@ -1,10 +1,7 @@
-package com.sanhuo.commom.manager;
+package com.sanhuo.commom.spring;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.Order;
@@ -18,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(value = 1)
-public class SpringManager implements ApplicationContextAware {
+public class SpringContextManager implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 

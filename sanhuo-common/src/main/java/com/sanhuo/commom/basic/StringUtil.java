@@ -1,7 +1,5 @@
-package com.sanhuo.commom.utils;
+package com.sanhuo.commom.basic;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 /**
