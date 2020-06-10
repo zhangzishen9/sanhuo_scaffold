@@ -1,13 +1,12 @@
 package com.sanhuo.persistent.binding;
 
-import com.sanhuo.commom.utils.StringUtil;
+import com.sanhuo.commom.basic.StringUtil;
 import com.sanhuo.persistent.binding.annotation.Column;
 import com.sanhuo.persistent.binding.annotation.Identifier;
 import com.sanhuo.persistent.binding.annotation.Table;
 import com.sanhuo.persistent.binding.property.ColumnProperty;
 import com.sanhuo.persistent.binding.property.TableProperty;
 import com.sanhuo.persistent.reflection.Reflector;
-import com.sanhuo.persistent.reflection.meta.MetaObject;
 import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.persistent.type.JdbcType;
 import com.sanhuo.persistent.type.TypeHandler;

@@ -1,11 +1,8 @@
 package com.sanhuo.persistent.binding;
 
-import com.sanhuo.commom.manager.SpringBasicManager;
-import com.sanhuo.commom.manager.SpringManager;
 import com.sanhuo.persistent.binding.annotation.Mapper;
 import com.sanhuo.persistent.binding.proxy.MapperProxyFactory;
 import com.sanhuo.persistent.session.Configuration;
-import com.sanhuo.persistent.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

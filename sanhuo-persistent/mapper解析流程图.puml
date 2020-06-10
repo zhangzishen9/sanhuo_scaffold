@@ -46,9 +46,9 @@ Class MapperAnnotationBuilder
 # 构建方法的出参映射 -> ResultMappingHandler
 ## [Results]
 ## [mapper映射的实体]
-## [其他实体]
 ## [Integer,Boolean,Long,String等基础类型]
-## [Page分页]
+## [其他实体]
+## [Page分页] 待做
 
 # 获取方法的id(签名)
 # 构建并返回MappedStatement类

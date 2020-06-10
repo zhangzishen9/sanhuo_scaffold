@@ -51,6 +51,15 @@ public class ResultMapping {
          * 类型转换
          */
         private TypeHandler typeHandler;
+        /**
+         * 列索引 ,columnName和fieldName为空时才用到
+         */
+        private Integer columnIndex;
+
+        public Result(TypeHandler typeHandler, Integer columnIndex) {
+            this.typeHandler = typeHandler;
+            this.columnIndex = columnIndex;
+        }
     }
 
 }

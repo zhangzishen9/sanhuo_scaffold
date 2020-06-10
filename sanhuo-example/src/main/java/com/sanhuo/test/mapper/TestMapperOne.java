@@ -1,16 +1,15 @@
 package com.sanhuo.test.mapper;
 
 
-import com.sanhuo.commom.utils.ObjectUtil;
+import com.mysql.cj.jdbc.Driver;
+import com.mysql.cj.protocol.Resultset;
+import com.sanhuo.commom.basic.ObjectUtil;
 import com.sanhuo.persistent.binding.annotation.Mapper;
 import com.sanhuo.persistent.binding.annotation.Select;
-import com.sanhuo.persistent.builder.SqlSourceBuilder;
-import com.sanhuo.persistent.builder.config.annotation.MapperAnnotationBuilder;
-import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.test.TestApplication;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.sql.*;
 
 /**
  * TestMapperOne
@@ -22,22 +21,35 @@ import java.lang.reflect.Parameter;
 
 public class TestMapperOne {
     @Select("select * from user where id = {id}")
-    private void findById(Integer id){};
+    private void findById(Integer id) {
+    }
+
+    ;
 
 
-    private int test(){return 1;};
-    public static void main(String[] args) throws NoSuchMethodException {
+    private int test() {
+        return 1;
+    }
+
+    ;
+
+    public static void main(String[] args) throws NoSuchMethodException, ClassNotFoundException, SQLException {
 //        SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(Configuration.init());
 //        Method method = TestMapperOne.class.getDeclaredMethod("findById",Integer.class);
 //        Parameter[] p =  method.getParameters();
 //        MapperAnnotationBuilder mapperAnnotationBuilder = new MapperAnnotationBuilder(Configuration.init(),TestMapperOne.class);
 //        sqlSourceBuilder.parse("select * from person where id = #{id}",mapperAnnotationBuilder.parseParameterMapping(p));
 //        System.out.println(p);
-        Method method = TestMapperOne.class.getDeclaredMethod("test");
-        Class type = method.getReturnType();
-        System.out.println(ObjectUtil.isPrimitive(type));
+//        Method method = TestMapperOne.class.getDeclaredMethod("test");
+//        Class type = method.getReturnType();
+//        System.out.println(ObjectUtil.isPrimitive(type));
+//        System.out.println(1);
+        Class.forName(Driver.class.getName());
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8", "root", "123456");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from person");
+        preparedStatement.execute();
+        ResultSet resultset = preparedStatement.getResultSet();
         System.out.println(1);
-
     }
 
 

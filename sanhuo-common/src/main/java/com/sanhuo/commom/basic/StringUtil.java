@@ -29,6 +29,12 @@ public class StringUtil {
         return string == null || EMPTY_STRING.equals(string.trim());
     }
 
+    /**
+     * 判断输入的string是否为空
+     *
+     * @param string
+     * @return
+     */
     public static Boolean isNotBlank(String string) {
         return !(string == null || EMPTY_STRING.equals(string.trim()));
     }
@@ -40,6 +46,7 @@ public class StringUtil {
 
     /**
      * 驼峰转下划线
+     *
      * @param camelCaseName
      * @return
      */

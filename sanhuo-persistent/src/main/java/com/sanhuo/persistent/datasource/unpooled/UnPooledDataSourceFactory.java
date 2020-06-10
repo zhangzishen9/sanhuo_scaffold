@@ -5,7 +5,7 @@ import com.sanhuo.persistent.datasource.DataSourceFactory;
 import com.sanhuo.persistent.reflection.Reflector;
 import com.sanhuo.persistent.reflection.meta.MetaObject;
 import com.sanhuo.persistent.session.Configuration;
-import com.sanhuo.commom.utils.StringUtil;
+import com.sanhuo.commom.basic.StringUtil;
 
 import javax.sql.DataSource;
 

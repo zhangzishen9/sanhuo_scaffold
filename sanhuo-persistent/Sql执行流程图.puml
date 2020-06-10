@@ -1,7 +1,33 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+: SqlSession;
+
+note left
+# 线程唯一 跟随线程
+# SqlSessionManage -> SqlSessionFactory -> SqlSession
+end note
+
+: Executor ;
+
+note right
+执行器的基类, 装饰器模式 可以无限叠加功能
+====
+# BaseExecutor
+# SimpleExecutor
+end note
+
+
+:ParamterHanler;
+note right
+参数处理器
+====
+
+end note
+
+:ResultSetHandler;
+note left
+结果映射处理器
+====
+
+end note
 @enduml

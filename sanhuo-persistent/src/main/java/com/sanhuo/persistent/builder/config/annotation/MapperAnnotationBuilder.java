@@ -1,12 +1,10 @@
 package com.sanhuo.persistent.builder.config.annotation;
 
-import com.sanhuo.commom.utils.StringUtil;
+import com.sanhuo.commom.basic.StringUtil;
 import com.sanhuo.persistent.binding.ResultMappingHandler;
 import com.sanhuo.persistent.binding.annotation.*;
-import com.sanhuo.persistent.binding.property.ColumnProperty;
 import com.sanhuo.persistent.binding.property.ResultMapping;
 import com.sanhuo.persistent.binding.property.SqlType;
-import com.sanhuo.persistent.binding.property.TableProperty;
 import com.sanhuo.persistent.builder.SqlSourceBuilder;
 import com.sanhuo.persistent.mapping.MappedStatement;
 import com.sanhuo.persistent.mapping.ParameterMapping;

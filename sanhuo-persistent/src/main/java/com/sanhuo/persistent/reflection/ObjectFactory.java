@@ -1,6 +1,6 @@
 package com.sanhuo.persistent.reflection;
 
-import com.sanhuo.commom.utils.ObjectUtil;
+import com.sanhuo.commom.basic.ObjectUtil;
 
 import java.lang.reflect.Constructor;
 import java.util.List;

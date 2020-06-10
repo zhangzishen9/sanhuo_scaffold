@@ -22,7 +22,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Aspect
 @Slf4j
 //@Component
-public  class DistributeLockAspect {
+//todo 优化形式
+public class DistributeLockAspect {
     /**
      * 需要实现这个方法获取redisTemplate
      *

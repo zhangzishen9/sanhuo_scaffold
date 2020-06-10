@@ -1,6 +1,8 @@
 package com.sanhuo.commom.spring;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -13,16 +15,21 @@ import org.springframework.stereotype.Component;
  * @author sanhuo
  * @date 2020/3/1 0001 下午 19:34
  */
-@Component
-@Order(value = 1)
-public class SpringContextManager implements ApplicationContextAware {
+@Order(1)
+public class SpringContextManager implements ApplicationContextAware, BeanFactoryAware {
 
     private static ApplicationContext applicationContext;
+    private static BeanFactory beanFactory;
 
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
     }
 
     /**
@@ -45,8 +52,9 @@ public class SpringContextManager implements ApplicationContextAware {
         }
         String className = singletonBean.getClass().getName();
         DefaultListableBeanFactory beanFactory = null;
-        if (beanFactory == null) {
+        if (applicationContext != null) {
             beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+        } else {            beanFactory = (DefaultListableBeanFactory) beanFactory;
         }
         beanFactory.registerSingleton(className, singletonBean);
     }
