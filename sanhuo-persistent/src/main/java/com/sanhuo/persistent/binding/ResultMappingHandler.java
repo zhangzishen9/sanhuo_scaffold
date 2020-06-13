@@ -8,6 +8,8 @@ import com.sanhuo.persistent.binding.property.ColumnProperty;
 import com.sanhuo.persistent.binding.property.ResultMapping;
 import com.sanhuo.persistent.binding.property.TableProperty;
 import com.sanhuo.persistent.builder.config.yml.YmlConfigBuilder;
+import com.sanhuo.persistent.enums.CollectionType;
+import com.sanhuo.persistent.excutor.Executor;
 import com.sanhuo.persistent.reflection.Reflector;
 import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.persistent.type.JdbcType;
@@ -18,10 +20,8 @@ import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
 
 /**
  * <p>
@@ -48,13 +48,22 @@ public class ResultMappingHandler {
         ResultMapping.ResultMappingBuilder builder = ResultMapping.builder();
         //返回值
         Class<?> returnType = method.getReturnType();
+        //是否是列表
+        boolean isCollection = this.isCollection(returnType);
+        builder.isCollection(isCollection);
+        //是
+        if (isCollection) {
+            //是List还是Set
+            builder.collectionType(this.getCollectionType(returnType));
+            //获取List/Set里的泛型
+            returnType = this.getGenericReturnType(method);
+        }
         //结果映射注解
         Results resultsAnnotation = getResultsAnnotation(method);
         //1.不为空则直接以results的为准
         if (resultsAnnotation != null && resultsAnnotation.value().length > 0) {
             builder.type(ObjectUtil.isPrimitive(returnType) ? ObjectUtil.getPackageClass(returnType) : returnType);
             return builder.columns(this.parseResultAnnotation(resultsAnnotation)).build();
-
         } //结果映射注解为空
         else {
             //2.判断返回的类型和mapper映射的是否一致
@@ -172,4 +181,32 @@ public class ResultMappingHandler {
         return results;
     }
 
+    /**
+     * 判断返回值是否是列表
+     *
+     * @return
+     */
+    private boolean isCollection(Class type) {
+        return Collection.class.isAssignableFrom(type);
+    }
+
+    /**
+     * 获取列表里的泛型
+     *
+     * @param method
+     * @return
+     */
+    private Class getGenericReturnType(Method method) {
+        return (Class) ParameterizedType.class.cast(method.getGenericReturnType()).getActualTypeArguments()[0];
+    }
+
+
+    private Class getCollectionType(Class type) {
+        for (CollectionType collectionType : CollectionType.class.getEnumConstants()) {
+            if (collectionType.type.equals(type.getName())) {
+                return collectionType.value;
+            }
+        }
+        return null;
+    }
 }

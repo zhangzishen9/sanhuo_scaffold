@@ -32,11 +32,20 @@ public class ResultMapping {
     private Class<?> type;
 
     /**
+     * 是否是列表
+     */
+    private Boolean isCollection;
+
+    /**
+     * List/Set
+     */
+    private Class collectionType;
+
+    /**
      * 结果映射的每行
      */
     @Data
     @Builder
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class Result {
         /**
