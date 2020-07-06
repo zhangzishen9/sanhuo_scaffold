@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @date 2020/3/1 0001 下午 19:34
  */
 @Order(1)
+@Component
 public class SpringContextManager implements ApplicationContextAware, BeanFactoryAware {
 
     private static ApplicationContext applicationContext;

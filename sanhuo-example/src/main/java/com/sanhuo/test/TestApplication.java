@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, RedisAutoConfiguration.class})
 @EnableEurekaClient
-@ComponentScan("com.sanhuo")
+@ComponentScan("com.sanhuo.**")
 @EnableSanHuoPersistent("com.sanhuo.test.mapper")
 public class TestApplication {
     public static void main(String[] args) {

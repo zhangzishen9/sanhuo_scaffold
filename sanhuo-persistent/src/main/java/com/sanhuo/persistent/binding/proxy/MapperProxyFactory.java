@@ -5,7 +5,7 @@ import org.springframework.beans.factory.FactoryBean;
 import java.lang.reflect.Proxy;
 
 /**
- *  mapper代理类的factoryBean
+ * mapper代理类的factoryBean
  *
  * @author sanhuo
  * @date 2020/3/2 0002 下午 21:24
@@ -30,8 +30,9 @@ public class MapperProxyFactory implements FactoryBean {
      */
     @Override
     public Object getObject() {
+
         return Proxy.newProxyInstance(mapper.getClassLoader(),
-                new Class[]{mapper}, new MapperProxy());
+                new Class[]{mapper}, new MapperProxy(mapper.getName()));
 
     }
 

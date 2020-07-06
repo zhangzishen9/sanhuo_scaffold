@@ -1,7 +1,15 @@
 package com.sanhuo.persistent.excutor;
 
 import com.sanhuo.persistent.cache.CacheKey;
+import com.sanhuo.persistent.excutor.parameter.ParameterHandler;
+import com.sanhuo.persistent.excutor.statement.PreStatementHandler;
 import com.sanhuo.persistent.mapping.MappedStatement;
+import com.sanhuo.persistent.session.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * SimpleExecutor
@@ -9,39 +17,31 @@ import com.sanhuo.persistent.mapping.MappedStatement;
  * @author sanhuo
  * @date 2020/2/23 0023 下午 17:26
  */
-public class SimpleExecutor implements Executor {
-    @Override
-    public void commit(boolean required) {
+public class SimpleExecutor extends BaseExecutor {
+
+
+    public SimpleExecutor(Configuration configuration, Connection connection) {
+        super(configuration, connection);
 
     }
 
     @Override
-    public void rollback(boolean required) {
-
-    }
-
-    @Override
-    public CacheKey createCacheKey(MappedStatement ms) {
+    protected <E> List<E> doQuery(MappedStatement ms, RowBounds rowBounds, BoundSql boundSql, Object... params) throws SQLException {
+        Configuration configuration = this.configuration;
+        PreparedStatement pstmt = null;
+        try {
+            PreStatementHandler preStatementHandler =
+                    new PreStatementHandler(ms, this.configuration, boundSql, rowBounds);
+            pstmt = preStatementHandler.init(this.connection);
+            //设置参数
+            preStatementHandler.setParams(pstmt, params);
+            //返回结果
+            return preStatementHandler.getResult(pstmt);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //todo 处理
+        }
         return null;
     }
 
-    @Override
-    public boolean isCached(MappedStatement ms, CacheKey key) {
-        return false;
-    }
-
-    @Override
-    public void clearLocalCache() {
-
-    }
-
-    @Override
-    public void close(boolean forceRollback) {
-
-    }
-
-    @Override
-    public boolean isClosed() {
-        return false;
-    }
 }

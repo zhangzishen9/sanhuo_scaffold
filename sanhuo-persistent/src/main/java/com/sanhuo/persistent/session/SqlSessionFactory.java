@@ -1,5 +1,7 @@
 package com.sanhuo.persistent.session;
 
+import java.sql.SQLException;
+
 /**
  * SqlSession的工厂
  *
@@ -8,7 +10,7 @@ package com.sanhuo.persistent.session;
  */
 public interface SqlSessionFactory {
     //8个方法可以用来创建SqlSession实例
-    SqlSession openSession();
+    SqlSession openSession() throws SQLException;
 
     Configuration getConfiguration();
 }

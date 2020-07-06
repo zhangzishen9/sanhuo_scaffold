@@ -46,16 +46,16 @@ public class MapperAnnotationBuilder {
     private final MappedStatement.MappedStatementBuilder mappedStatementBuilder;
 
     /**
-     * 结果映射处理器
+     * ResultHandler
      */
     private final ResultMappingHandler resultMappingHandler;
 
     public MapperAnnotationBuilder(Configuration configuration, Class<?> type) {
         this.configuration = configuration;
-        this.sqlSourceBuilder = new SqlSourceBuilder(configuration);
+        this.sqlSourceBuilder = new SqlSourceBuilder(this.configuration);
         this.type = type;
         this.mappedStatementBuilder = MappedStatement.builder().resource(type);
-        this.resultMappingHandler = new ResultMappingHandler();
+        this.resultMappingHandler = new ResultMappingHandler(this.configuration);
     }
 
     /**

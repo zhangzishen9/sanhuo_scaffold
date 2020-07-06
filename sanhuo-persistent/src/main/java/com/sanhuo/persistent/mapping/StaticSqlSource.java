@@ -1,6 +1,7 @@
 package com.sanhuo.persistent.mapping;
 
 import com.sanhuo.persistent.builder.SqlSourceBuilder;
+import com.sanhuo.persistent.session.BoundSql;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,7 +38,7 @@ public class StaticSqlSource implements SqlSource {
 
 
     @Override
-    public BoundSql getBoundSql(Object parameterObject) {
+    public BoundSql getBoundSql(Object... parameter) {
         String newSql = handler.parse(this.sql, this.params);
         return new BoundSql(newSql, handler.getParams());
     }

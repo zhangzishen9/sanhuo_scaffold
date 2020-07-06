@@ -88,7 +88,7 @@ public class MetaObject {
         Invoker setter = setMethods.get(fieldName);
         Class fieldType = setTypes.get(fieldName);
         //属性的真实属性和value的属性不一致
-        if (fieldType != value.getClass()) {
+        if (!fieldType.equals(value.getClass())) {
             ExceptionUtil.throwException(ReflectionException.class,
                     ExceptionMessageConstant.FIELD_TYPE_UN_MATCH, fieldName);
         }

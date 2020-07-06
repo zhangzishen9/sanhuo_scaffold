@@ -1,5 +1,6 @@
-package com.sanhuo.persistent.mapping;
+package com.sanhuo.persistent.session;
 
+import com.sanhuo.persistent.mapping.ParameterMapping;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

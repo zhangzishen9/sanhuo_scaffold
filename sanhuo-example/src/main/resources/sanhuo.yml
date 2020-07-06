@@ -5,9 +5,9 @@ persistend:
     dataSourceProperties:
       - id: dev
         driver: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://106.54.208.155:3306/sanhuo?serverTimezone=GMT%2B8
-        password: gsj4yw7.
-        username: sanhuo
+        url: jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
+        password: 123456
+        username: root
       - id: product
         driver: product_driver
         url: product_url

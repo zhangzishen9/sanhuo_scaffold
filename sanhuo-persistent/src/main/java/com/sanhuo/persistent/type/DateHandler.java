@@ -23,7 +23,7 @@ public class DateHandler implements TypeHandler<Date> {
     @Override
     public Date getResult(ResultSet rs, String columnName) throws SQLException {
         //todo 判空
-        return rs.getDate(columnName);
+        return new Date(rs.getDate(columnName).getTime());
     }
 
     @Override

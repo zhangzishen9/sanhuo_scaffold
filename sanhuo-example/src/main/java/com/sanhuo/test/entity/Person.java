@@ -6,6 +6,8 @@ import com.sanhuo.persistent.binding.annotation.Identifier;
 import com.sanhuo.persistent.binding.annotation.Table;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * <p>
  *
@@ -27,8 +29,5 @@ public class Person {
     private String name;
 
     @Column
-    private String email;
-
-    @Column
-    private Integer age;
+    private Date createTime;
 }

@@ -2,6 +2,7 @@ package com.sanhuo.persistent.mapping;
 
 import com.sanhuo.persistent.binding.property.ResultMapping;
 import com.sanhuo.persistent.binding.property.SqlType;
+import com.sanhuo.persistent.session.BoundSql;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +36,7 @@ public class MappedStatement {
      */
     private SqlSource sqlSource;
 
-     /**
+    /**
      * 结果映射
      */
     private ResultMapping resultMapping;
@@ -46,4 +47,9 @@ public class MappedStatement {
     private SqlType sqlType;
 
     //TODO 缓存相关
+
+    public BoundSql getBoundSql(Object... params) {
+        return this.sqlSource.getBoundSql(params);
+
+    }
 }

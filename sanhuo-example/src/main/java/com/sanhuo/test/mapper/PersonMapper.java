@@ -5,6 +5,8 @@ import com.sanhuo.persistent.binding.annotation.Mapper;
 import com.sanhuo.persistent.binding.annotation.Select;
 import com.sanhuo.test.entity.Person;
 
+import java.util.List;
+
 /**
  * PersonMapper
  *
@@ -15,8 +17,8 @@ import com.sanhuo.test.entity.Person;
 public interface PersonMapper {
 
 
-    @Select("select * from user where id = #{id}")
-    Person findAll(Integer id);
+    @Select("select * from person")
+    List<Person> findAll();
 
 
 }

@@ -45,15 +45,8 @@ public class CollectionUtil {
      * @param type
      * @return
      */
-    //TODO 换个优雅点的方式
-    public static boolean isCollection(Type type) {
-        return List.class.getTypeName().equals(type.getTypeName()) ||
-                Set.class.getTypeName().equals(type.getTypeName()) ||
-                Collection.class.getTypeName().equals(type.getTypeName());
-    }
-
-    public static boolean isCollection(Object arg) {
-        return isCollection(arg.getClass());
+    public static boolean isCollection(Class type) {
+        return Collection.class.isAssignableFrom(type);
     }
 
 

@@ -1,10 +1,6 @@
 package com.sanhuo.persistent.mapping;
 
-import com.sanhuo.persistent.session.Configuration;
-import lombok.Data;
-
-import java.util.List;
-import java.util.Map;
+import com.sanhuo.persistent.session.BoundSql;
 
 /**
  * <p>
@@ -20,8 +16,7 @@ public interface SqlSource {
     /**
      * 解析后的sql对象
      *
-     * @param parameterObject
      * @return
      */
-    BoundSql getBoundSql(Object parameterObject);
+    BoundSql getBoundSql(Object... paramete);
 }

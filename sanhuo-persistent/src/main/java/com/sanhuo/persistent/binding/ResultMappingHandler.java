@@ -1,5 +1,6 @@
 package com.sanhuo.persistent.binding;
 
+import com.sanhuo.commom.basic.CollectionUtil;
 import com.sanhuo.commom.basic.ObjectUtil;
 import com.sanhuo.commom.basic.StringUtil;
 import com.sanhuo.persistent.binding.annotation.Result;
@@ -7,9 +8,7 @@ import com.sanhuo.persistent.binding.annotation.Results;
 import com.sanhuo.persistent.binding.property.ColumnProperty;
 import com.sanhuo.persistent.binding.property.ResultMapping;
 import com.sanhuo.persistent.binding.property.TableProperty;
-import com.sanhuo.persistent.builder.config.yml.YmlConfigBuilder;
 import com.sanhuo.persistent.enums.CollectionType;
-import com.sanhuo.persistent.excutor.Executor;
 import com.sanhuo.persistent.reflection.Reflector;
 import com.sanhuo.persistent.session.Configuration;
 import com.sanhuo.persistent.type.JdbcType;
@@ -37,6 +36,7 @@ import java.util.*;
 public class ResultMappingHandler {
 
     private Configuration configuration;
+
 
     /**
      * 解析方法的结果映射
@@ -187,7 +187,7 @@ public class ResultMappingHandler {
      * @return
      */
     private boolean isCollection(Class type) {
-        return Collection.class.isAssignableFrom(type);
+        return CollectionUtil.isCollection(type);
     }
 
     /**

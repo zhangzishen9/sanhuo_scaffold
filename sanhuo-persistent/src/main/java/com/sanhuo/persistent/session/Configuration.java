@@ -16,15 +16,12 @@ import java.util.*;
 public class Configuration {
     //类型别名注册机
     @Getter
-    @Setter
     protected final TypeAliasRegistry typeAliasRegistry;
     //类型处理器注册机
     @Getter
-    @Setter
     protected final TypeHandlerRegistry typeHandlerRegistry;
     //java类型和jdbc类型默认转换注册机
     @Getter
-    @Setter
     protected final TypeParsingRegistry typeParsingRegistry;
 
     private Configuration(TypeAliasRegistry typeAliasRegistry, TypeHandlerRegistry typeHandlerRegistry, TypeParsingRegistry typeParsingRegistry) {

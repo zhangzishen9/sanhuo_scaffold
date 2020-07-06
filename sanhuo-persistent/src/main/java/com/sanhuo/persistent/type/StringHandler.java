@@ -22,7 +22,7 @@ public class StringHandler implements TypeHandler<String> {
 
     @Override
     public String getResult(ResultSet rs, String columnName) throws SQLException {
-        //todo 判空
+        //todo 判空 没有这个columnName怎么处理
         return rs.getString(columnName);
     }
 

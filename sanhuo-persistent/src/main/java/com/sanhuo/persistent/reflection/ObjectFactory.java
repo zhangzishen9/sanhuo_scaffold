@@ -3,6 +3,7 @@ package com.sanhuo.persistent.reflection;
 import com.sanhuo.commom.basic.ObjectUtil;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -43,6 +44,7 @@ public class ObjectFactory {
                 newInstance = type.newInstance();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             //todo 处理
         }
         return newInstance;
