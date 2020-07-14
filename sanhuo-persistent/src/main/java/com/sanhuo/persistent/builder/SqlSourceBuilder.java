@@ -1,6 +1,5 @@
 package com.sanhuo.persistent.builder;
 
-import ch.qos.logback.classic.db.SQLBuilder;
 import com.sanhuo.persistent.mapping.DynamicSqlSource;
 import com.sanhuo.persistent.mapping.ParameterMapping;
 import com.sanhuo.persistent.mapping.SqlSource;
@@ -9,7 +8,6 @@ import com.sanhuo.persistent.session.Configuration;
 import lombok.Getter;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
