@@ -3,6 +3,7 @@ package com.sanhuo.persistent.excutor.statement;
 import com.mysql.cj.protocol.Resultset;
 import com.sanhuo.persistent.excutor.parameter.ParameterHandler;
 import com.sanhuo.persistent.excutor.result.ResultSetHandler;
+import com.sanhuo.persistent.logging.Log;
 import com.sanhuo.persistent.mapping.MappedStatement;
 import com.sanhuo.persistent.session.BoundSql;
 import com.sanhuo.persistent.session.Configuration;
@@ -64,8 +65,8 @@ public class PreStatementHandler {
      * @param params
      * @throws SQLException
      */
-    public void setParams(PreparedStatement pstmt, Object... params) throws SQLException {
-        parameterHandler.setParams(pstmt, params);
+    public void setParams(Log log, PreparedStatement pstmt, Object... params) throws SQLException {
+        parameterHandler.setParams(log, pstmt, params);
     }
 
 

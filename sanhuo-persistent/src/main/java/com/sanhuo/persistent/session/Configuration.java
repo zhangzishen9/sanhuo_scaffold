@@ -3,12 +3,15 @@ package com.sanhuo.persistent.session;
 import com.sanhuo.persistent.binding.property.TableProperty;
 import com.sanhuo.persistent.builder.config.yml.pojo.datasource.DataSourceProperty;
 import com.sanhuo.persistent.enums.DataSourceType;
+import com.sanhuo.persistent.logging.Log;
+import com.sanhuo.persistent.logging.LogFactory;
 import com.sanhuo.persistent.mapping.MappedStatement;
 import com.sanhuo.persistent.type.TypeAliasRegistry;
 import com.sanhuo.persistent.type.TypeHandlerRegistry;
 import com.sanhuo.persistent.type.TypeParsingRegistry;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.util.*;
@@ -24,11 +27,26 @@ public class Configuration {
     @Getter
     protected final TypeParsingRegistry typeParsingRegistry;
 
+
     private Configuration(TypeAliasRegistry typeAliasRegistry, TypeHandlerRegistry typeHandlerRegistry, TypeParsingRegistry typeParsingRegistry) {
         this.typeAliasRegistry = typeAliasRegistry;
         this.typeHandlerRegistry = typeHandlerRegistry;
         this.typeParsingRegistry = typeParsingRegistry;
+        this.loggerFactory = new LogFactory();
     }
+
+    public static Configuration init() {
+        return init(null, null, null);
+    }
+
+    public static Configuration init(TypeAliasRegistry typeAliasRegistry, TypeHandlerRegistry typeHandlerRegistry, TypeParsingRegistry typeParsingRegistry) {
+        //如果传进来是null,将默认的赋值进去
+        typeAliasRegistry = typeAliasRegistry == null ? new TypeAliasRegistry() : typeAliasRegistry;
+        typeHandlerRegistry = typeHandlerRegistry == null ? new TypeHandlerRegistry() : typeHandlerRegistry;
+        typeParsingRegistry = typeParsingRegistry == null ? new TypeParsingRegistry() : typeParsingRegistry;
+        return new Configuration(typeAliasRegistry, typeHandlerRegistry, typeParsingRegistry);
+    }
+
 
     /**
      * 数据源配置列表
@@ -56,10 +74,23 @@ public class Configuration {
     private DataSource dataSource;
 
     /**
+     * 是否允许打印日志
+     */
+    @Setter
+    private Boolean enableLog;
+
+
+    /**
+     * 日志工厂
+     */
+    private LogFactory loggerFactory;
+
+    /**
      * mapper和entity的映射关系
      */
     @Getter
     private final Map<Class, Class> mappedEntities = new HashMap<>();
+
 
     /**
      * 添加映射关系
@@ -165,16 +196,14 @@ public class Configuration {
 
     }
 
-    public static Configuration init() {
-        return init(null, null, null);
-    }
-
-    public static Configuration init(TypeAliasRegistry typeAliasRegistry, TypeHandlerRegistry typeHandlerRegistry, TypeParsingRegistry typeParsingRegistry) {
-        //如果传进来是null,将默认的赋值进去
-        typeAliasRegistry = typeAliasRegistry == null ? new TypeAliasRegistry() : typeAliasRegistry;
-        typeHandlerRegistry = typeHandlerRegistry == null ? new TypeHandlerRegistry() : typeHandlerRegistry;
-        typeParsingRegistry = typeParsingRegistry == null ? new TypeParsingRegistry() : typeParsingRegistry;
-        return new Configuration(typeAliasRegistry, typeHandlerRegistry, typeParsingRegistry);
+    /**
+     * 获取日志
+     *
+     * @param clazz
+     * @return
+     */
+    public Log getLog(Class clazz) {
+        return this.loggerFactory.getLog(clazz, this.enableLog);
     }
 
 

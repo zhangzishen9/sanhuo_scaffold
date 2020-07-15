@@ -19,5 +19,3 @@ spring:
   application:
     name: sanhuo-test
 
-logging:
-  config: classpath:log4j2.xml

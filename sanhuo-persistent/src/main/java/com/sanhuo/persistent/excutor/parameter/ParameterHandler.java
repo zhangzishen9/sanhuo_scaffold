@@ -2,6 +2,7 @@ package com.sanhuo.persistent.excutor.parameter;
 
 import com.sanhuo.persistent.binding.property.ResultMapping;
 import com.sanhuo.persistent.binding.property.TableProperty;
+import com.sanhuo.persistent.logging.Log;
 import com.sanhuo.persistent.mapping.MappedStatement;
 import com.sanhuo.persistent.mapping.ParameterMapping;
 import com.sanhuo.persistent.session.BoundSql;
@@ -33,8 +34,13 @@ public class ParameterHandler {
         this.configuration = configuration;
     }
 
-    public void setParams(PreparedStatement pstmt, Object... params) throws SQLException {
+    public void setParams(Log log, PreparedStatement pstmt, Object... params) throws SQLException {
         Map<Integer, ParameterMapping> paramMappings = this.boundSql.getParams();
+
+        //打印日志
+        log.logSql(this.boundSql.getSql(), params);
+
+        //设置参数
         for (Map.Entry<Integer, ParameterMapping> paramMapping : paramMappings.entrySet()) {
             paramMapping.getValue().getTypeHandler().setParameter(pstmt, paramMapping.getKey(), params[paramMapping.getKey() - 1]);
 

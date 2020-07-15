@@ -15,3 +15,5 @@ persistend:
         username: product_username
 #  typeAliases:
 #    typeAliase: 123
+  logger:
+    enable: true

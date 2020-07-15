@@ -3,6 +3,7 @@ package com.sanhuo.persistent.builder.config.yml;
 import com.sanhuo.persistent.builder.BaseBuilder;
 import com.sanhuo.persistent.builder.config.yml.pojo.Persistend;
 import com.sanhuo.persistent.builder.config.yml.pojo.datasource.DataSourceElement;
+import com.sanhuo.persistent.builder.config.yml.pojo.log.LoggerProperty;
 import com.sanhuo.persistent.datasource.DataSourceFactory;
 import com.sanhuo.persistent.enums.DataSourceType;
 import com.sanhuo.persistent.exception.ExceptionUtil;
@@ -36,12 +37,15 @@ public class YmlConfigBuilder extends BaseBuilder {
     private void environmentsElement(Properties properties) {
         Persistend persistend = properties.getPersistend();
         DataSourceElement dataSourceElement = persistend.getDataSource();
+        LoggerProperty loggerElement = persistend.getLogger();
         //获取数据源配置列表
         this.configuration.setDataSourceProperties(dataSourceElement.getDataSourceProperties());
         //默认使用哪个数据源配置
         this.configuration.setProfiles(dataSourceElement.getProfiles());
         //当前数据库类型
         this.configuration.setType(dataSourceElement.getType());
+        //是否允许打印日志
+        this.configuration.setEnableLog(loggerElement.getEnable());
         //没有数组库环境配置则报错
         if (CollectionUtils.isEmpty(configuration.getDataSourceProperties())) {
             ExceptionUtil.throwException(PropertiesException.class, ExceptionMessageConstant.DATASOURCE_PROPERTIES_DEFECT);
@@ -70,7 +74,6 @@ public class YmlConfigBuilder extends BaseBuilder {
         }
         return factory;
     }
-
 
 
 }

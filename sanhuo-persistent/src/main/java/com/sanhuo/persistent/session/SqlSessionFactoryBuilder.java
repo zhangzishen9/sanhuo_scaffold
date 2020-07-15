@@ -41,6 +41,7 @@ public class SqlSessionFactoryBuilder {
             } else {
                 exception.printStackTrace();
             }
+            //todo 如果有的默认值没填也会报错
             return null;
         }
     }

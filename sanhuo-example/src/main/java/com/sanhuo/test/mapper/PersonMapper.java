@@ -17,8 +17,8 @@ import java.util.List;
 public interface PersonMapper {
 
 
-    @Select("select * from person")
-    List<Person> findAll();
+    @Select("select * from person where id = #{id}")
+    List<Person> findAll(String id);
 
 
 }

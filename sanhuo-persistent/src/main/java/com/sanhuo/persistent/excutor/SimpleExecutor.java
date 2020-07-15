@@ -3,6 +3,7 @@ package com.sanhuo.persistent.excutor;
 import com.sanhuo.persistent.cache.CacheKey;
 import com.sanhuo.persistent.excutor.parameter.ParameterHandler;
 import com.sanhuo.persistent.excutor.statement.PreStatementHandler;
+import com.sanhuo.persistent.logging.Log;
 import com.sanhuo.persistent.mapping.MappedStatement;
 import com.sanhuo.persistent.session.*;
 
@@ -19,9 +20,14 @@ import java.util.List;
  */
 public class SimpleExecutor extends BaseExecutor {
 
+    /**
+     * 日志
+     */
+    private Log log;
 
-    public SimpleExecutor(Configuration configuration, Connection connection) {
+    public SimpleExecutor(Configuration configuration, Connection connection, Log log) {
         super(configuration, connection);
+        this.log = log;
 
     }
 
@@ -34,7 +40,7 @@ public class SimpleExecutor extends BaseExecutor {
                     new PreStatementHandler(ms, this.configuration, boundSql, rowBounds);
             pstmt = preStatementHandler.init(this.connection);
             //设置参数
-            preStatementHandler.setParams(pstmt, params);
+            preStatementHandler.setParams(log, pstmt, params);
             //返回结果
             return preStatementHandler.getResult(pstmt);
         } catch (Exception e) {

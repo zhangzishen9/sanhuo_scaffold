@@ -5,6 +5,7 @@ import com.sanhuo.commom.basic.CollectionUtil;
 import com.sanhuo.commom.basic.ObjectUtil;
 import com.sanhuo.persistent.binding.annotation.Column;
 import com.sanhuo.persistent.binding.property.ResultMapping;
+import com.sanhuo.persistent.logging.Log;
 import com.sanhuo.persistent.mapping.MappedStatement;
 import com.sanhuo.persistent.reflection.ObjectFactory;
 import com.sanhuo.persistent.reflection.meta.MetaObject;

@@ -1,9 +1,9 @@
 package com.sanhuo.commom.lock.distribute;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sanhuo.commom.basic.StringUtil;
 import com.sanhuo.commom.lock.DistributeLockKeyStrategy;
 import com.sanhuo.commom.lock.distribute.annotation.DistributeLock;
-import org.apache.logging.log4j.util.Strings;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -67,7 +67,7 @@ public class RedisReentrantLockUtils {
                 return token + "&" + signature;
             //自定义
             case CUSTOM:
-                return Strings.isNotBlank(distributeLock.lockKey()) ? distributeLock.lockKey() : signature;
+                return StringUtil.isNotBlank(distributeLock.lockKey()) ? distributeLock.lockKey() : signature;
             default:
                 return signature;
         }
