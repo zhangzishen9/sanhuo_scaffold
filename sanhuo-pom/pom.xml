@@ -24,7 +24,7 @@
 
         <!-- 依赖的版本 -->
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
-        <mysql.version>8.0.19</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <redis.version>2.1.10.RELEASE</redis.version>
         <fastjson.version>1.2.52</fastjson.version>
         <yml-parse.version>2.10.0.pr2</yml-parse.version>
