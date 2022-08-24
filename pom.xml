@@ -9,13 +9,12 @@
     <packaging>pom</packaging>
 
     <properties>
-
         <sanhuo.version>1.0.0-SNAPSHOT</sanhuo.version>
     </properties>
 
     <modules>
         <module>sanhuo-common</module>
-        <module>sanhuo-example</module>
+        <module>sanhuo-mvp</module>
         <module>sanhuo-persistent</module>
         <module>sanhuo-pom</module>
     </modules>

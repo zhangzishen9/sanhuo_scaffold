@@ -5,31 +5,23 @@
     <parent>
         <groupId>com.sanhuo</groupId>
         <artifactId>sanhuo-pom</artifactId>
-        <version>${sanhuo.version}</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../sanhuo-pom/pom.xml</relativePath>
     </parent>
 
     <groupId>com.sanhuo</groupId>
-    <artifactId>sanhuo-example</artifactId>
-    <version>${example.version}</version>
-    <name>sanhuo-example</name>
+    <artifactId>sanhuo-mvp</artifactId>
+    <version>${mvp.version}</version>
+    <name>sanhuo-mvp</name>
 
     <dependencies>
 
-        <!-- spring-cloud server -->
+
+
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- persistent -->
-        <dependency>
-            <groupId>com.sanhuo</groupId>
-            <artifactId>sanhuo-persistent</artifactId>
-        </dependency>
-
-
-
 
     </dependencies>
 
