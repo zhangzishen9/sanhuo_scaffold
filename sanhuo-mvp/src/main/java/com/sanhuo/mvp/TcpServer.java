@@ -97,6 +97,7 @@ public class TcpServer {
                 //设置为非阻塞
                 socketChannel.configureBlocking(false);
                 socketChannel.register(selector, SelectionKey.OP_READ);
+                map.put(ip,socketChannel);
             } else if (selectionKey.isReadable()) {
                 //获取socket通道
                 socketChannel = (SocketChannel) selectionKey.channel();
