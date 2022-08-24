@@ -5,13 +5,13 @@
     <parent>
         <groupId>com.sanhuo</groupId>
         <artifactId>sanhuo-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${sanhuo.version}</version>
         <relativePath>../sanhuo-pom/pom.xml</relativePath>
     </parent>
 
     <groupId>com.sanhuo</groupId>
     <artifactId>sanhuo-persistent</artifactId>
-    <version>${persistent.version}</version>
+    <version>${sanhuo.version}</version>
     <name>sanhuo-persistent</name>
 
 
