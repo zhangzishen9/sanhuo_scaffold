@@ -47,17 +47,13 @@ public class TcpSupport extends ProtocolSupport {
      * @throws IOException
      */
     @Override
-    protected void openChannel(int port) throws Exception {
+    protected void openChannel(int port) {
         try {
             //打开通信信道
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            //设置为非阻塞
             serverSocketChannel.configureBlocking(false);
-            //获取套接字
             ServerSocket serverSocket = serverSocketChannel.socket();
-            //绑定端口号
             serverSocket.bind(new InetSocketAddress(port));
-            //打开监听器
             selector = Selector.open();
             //将通信信道注册到监听器
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
@@ -73,7 +69,7 @@ public class TcpSupport extends ProtocolSupport {
                 selectionKeys.clear();//清除处理过的事件
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("open tcp error : {}", e.getMessage());
         }
     }
 
@@ -95,7 +91,7 @@ public class TcpSupport extends ProtocolSupport {
                 serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
                 socketChannel = serverSocketChannel.accept();
                 String ip = socketChannel.socket().getInetAddress().getHostAddress();
-                log.info("监听到新的tcp链接,ip为:{}",ip);
+                log.info("监听到新的tcp链接,ip为:{}", ip);
                 //设置为非阻塞
                 socketChannel.configureBlocking(false);
                 socketChannel.register(selector, SelectionKey.OP_READ);

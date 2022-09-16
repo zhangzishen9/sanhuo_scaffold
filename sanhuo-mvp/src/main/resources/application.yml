@@ -1,8 +1,0 @@
-server:
-  port: 16000
-
-
-spring:
-  application:
-    name: sanhuo-test
-
