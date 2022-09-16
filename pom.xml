@@ -11,6 +11,7 @@
 
 
     <modules>
+        <module>sanhuo-web-core</module>
         <module>sanhuo-common</module>
         <module>sanhuo-app</module>
         <module>sanhuo-persistent</module>

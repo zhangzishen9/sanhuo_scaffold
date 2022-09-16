@@ -6,29 +6,28 @@
         <groupId>com.sanhuo</groupId>
         <artifactId>sanhuo-pom</artifactId>
         <version>${sanhuo.version}</version>
-        <relativePath>../../sanhuo-pom/pom.xml</relativePath>
+        <relativePath>../sanhuo-pom/pom.xml</relativePath>
     </parent>
 
-    <artifactId>sanhuo-mvp</artifactId>
+    <groupId>com.sanhuo</groupId>
+    <artifactId>sanhuo-web-core</artifactId>
     <version>${sanhuo.version}</version>
-    <name>sanhuo-mvp</name>
+    <name>sanhuo-web-core</name>
+
 
     <dependencies>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.sanhuo</groupId>
-            <artifactId>sanhuo-web-core</artifactId>
+            <artifactId>sanhuo-common</artifactId>
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

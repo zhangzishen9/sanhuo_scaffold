@@ -11,7 +11,6 @@
     <modules>
         <module>sanhuo-mvp</module>
         <module>sanhuo-wechat</module>
-
     </modules>
 
 </project>

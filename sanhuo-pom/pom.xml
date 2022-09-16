@@ -166,6 +166,14 @@
                 <version>${sanhuo.version}</version>
             </dependency>
 
+
+            <!-- web-core  -->
+            <dependency>
+                <groupId>com.sanhuo</groupId>
+                <artifactId>sanhuo-web-core</artifactId>
+                <version>${sanhuo.version}</version>
+            </dependency>
+
             <!-- persistent -->
             <dependency>
                 <groupId>com.sanhuo</groupId>
