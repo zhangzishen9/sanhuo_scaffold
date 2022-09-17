@@ -37,6 +37,6 @@ public abstract class ProtocolSupport implements IOSupport {
      *
      * @param port
      */
-    protected abstract void openChannel(int port) throws Exception;
+    protected abstract void openChannel(int port) ;
 
 }

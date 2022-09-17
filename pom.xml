@@ -11,8 +11,9 @@
 
 
     <modules>
+        <module>sanhuo-web-core</module>
         <module>sanhuo-common</module>
-        <module>sanhuo-mvp</module>
+        <module>sanhuo-app</module>
         <module>sanhuo-persistent</module>
         <module>sanhuo-pom</module>
         <module>sanhuo-io</module>

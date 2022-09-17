@@ -6,7 +6,7 @@
         <groupId>com.sanhuo</groupId>
         <artifactId>sanhuo-pom</artifactId>
         <version>${sanhuo.version}</version>
-        <relativePath>../sanhuo-pom/pom.xml</relativePath>
+        <relativePath>../../sanhuo-pom/pom.xml</relativePath>
     </parent>
 
     <artifactId>sanhuo-mvp</artifactId>
@@ -14,10 +14,12 @@
     <name>sanhuo-mvp</name>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.sanhuo</groupId>
+            <artifactId>sanhuo-web-core</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

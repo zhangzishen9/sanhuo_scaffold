@@ -11,7 +11,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,13 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 @Slf4j
 public class TcpSupport extends ProtocolSupport {
-    //解码buffer
-    private Charset cs = Charset.forName("UTF-8");
-    //接受数据缓冲区
-    private static ByteBuffer sBuffer = ByteBuffer.allocate(1024);
-    //发送数据缓冲区
-    private static ByteBuffer rBuffer = ByteBuffer.allocate(1024);
 
+    private static ByteBuffer sBuffer = ByteBuffer.allocate(1024);
+    private static ByteBuffer rBuffer = ByteBuffer.allocate(1024);
     public static Selector selector;
 
     /**
@@ -44,29 +39,37 @@ public class TcpSupport extends ProtocolSupport {
         return "tcp";
     }
 
+
+    /**
+     * 启动socket服务，开启监听
+     *
+     * @param port
+     * @throws IOException
+     */
     @Override
-    protected void openChannel(int port) throws Exception {
-        //打开通信信道
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        //设置为非阻塞
-        serverSocketChannel.configureBlocking(false);
-        //获取套接字
-        ServerSocket serverSocket = serverSocketChannel.socket();
-        //绑定端口号
-        serverSocket.bind(new InetSocketAddress(port));
-        //打开监听器
-        selector = Selector.open();
-        //将通信信道注册到监听器
-        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        //监听器会一直监听，如果客户端有请求就会进入相应的事件处理
-        while (true) {
-            selector.select();//select方法会一直阻塞直到有相关事件发生或超时
-            Set<SelectionKey> selectionKeys = selector.selectedKeys();//监听到的事件
-            for (SelectionKey key : selectionKeys) {
-                //具体的执行函数
-                handle(key);
+    protected void openChannel(int port) {
+        try {
+            //打开通信信道
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.configureBlocking(false);
+            ServerSocket serverSocket = serverSocketChannel.socket();
+            serverSocket.bind(new InetSocketAddress(port));
+            selector = Selector.open();
+            //将通信信道注册到监听器
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+            log.info("启动tcp监听,端口为:{}", port);
+            //监听器会一直监听，如果客户端有请求就会进入相应的事件处理
+            while (true) {
+                selector.select();//select方法会一直阻塞直到有相关事件发生或超时
+                Set<SelectionKey> selectionKeys = selector.selectedKeys();//监听到的事件
+                for (SelectionKey key : selectionKeys) {
+                    //具体的执行函数
+                    handle(key);
+                }
+                selectionKeys.clear();//清除处理过的事件
             }
-            selectionKeys.clear();//清除处理过的事件
+        } catch (Exception e) {
+            log.error("open tcp error : {}", e.getMessage());
         }
     }
 
@@ -79,8 +82,6 @@ public class TcpSupport extends ProtocolSupport {
     private void handle(SelectionKey selectionKey) throws IOException {
         ServerSocketChannel serverSocketChannel = null;
         SocketChannel socketChannel = null;
-        String requestMsg = "";
-        String sendText = "";
         try {
             int count = 0;
 
@@ -94,7 +95,7 @@ public class TcpSupport extends ProtocolSupport {
                 //设置为非阻塞
                 socketChannel.configureBlocking(false);
                 socketChannel.register(selector, SelectionKey.OP_READ);
-                c.put(ip, socketChannel);
+                clientMap.put(ip, socketChannel);
             } else if (selectionKey.isReadable()) {
                 //获取socket通道
                 socketChannel = (SocketChannel) selectionKey.channel();
@@ -113,8 +114,6 @@ public class TcpSupport extends ProtocolSupport {
                     ip += port;
                     clientMap.remove(ip);
                     log.info("有客户端:" + ip + " 断开连接");
-                }else{
-                    log.info("");
                 }
                 socketChannel.register(selector, SelectionKey.OP_READ);
             }
@@ -126,7 +125,6 @@ public class TcpSupport extends ProtocolSupport {
                 try {
                     selectionKey.channel().close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
                     log.error("tcp出现异常", e.getMessage());
                 }
             }
