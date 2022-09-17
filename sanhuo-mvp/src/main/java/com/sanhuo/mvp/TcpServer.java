@@ -93,11 +93,11 @@ public class TcpServer {
                 serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
                 socketChannel = serverSocketChannel.accept();
                 String ip = socketChannel.socket().getInetAddress().getHostAddress();
-                log.info("监听到新的tcp链接,ip为:{}",ip);
+                log.info("监听到新的tcp链接,ip为:{}", ip);
                 //设置为非阻塞
                 socketChannel.configureBlocking(false);
                 socketChannel.register(selector, SelectionKey.OP_READ);
-                map.put(ip,socketChannel);
+                map.put(ip, socketChannel);
             } else if (selectionKey.isReadable()) {
                 //获取socket通道
                 socketChannel = (SocketChannel) selectionKey.channel();
@@ -116,6 +116,8 @@ public class TcpServer {
                     ip += port;
                     map.remove(ip);
                     log.info("有客户端:" + ip + " 断开连接");
+                } else {
+//                    log.info("get message:{}", rBuffer.toString());
                 }
                 socketChannel.register(selector, SelectionKey.OP_READ);
             }

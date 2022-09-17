@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,18 +29,27 @@ public class Controller {
 
     @GetMapping("/sendMsg")
     public void changDeviceState(Integer msg) throws IOException {
-        Map<String, SocketChannel> map = TcpServer.map;
-        for (Map.Entry<String, SocketChannel> entry : map.entrySet()) {
-            SocketChannel channel = entry.getValue();
-            sBuffer.clear();
-            sBuffer.put((msg + "").getBytes());
-            sBuffer.flip();
-            //输出到通道
-            if (channel.write(sBuffer) < 0) {
-                throw new RuntimeException("设备通信失败!");
+        synchronized (Controller.class) {
+            Map<String, SocketChannel> map = TcpServer.map;
+            List<String> removeList = new ArrayList<>();
+            for (Map.Entry<String, SocketChannel> entry : map.entrySet()) {
+                SocketChannel channel = entry.getValue();
+                if (!channel.isConnected()) {
+                    removeList.add(entry.getKey());
+                    log.info("断开连接:{}", entry.getKey());
+                    continue;
+                }
+                sBuffer.clear();
+                sBuffer.put((msg + "").getBytes());
+                sBuffer.flip();
+                //输出到通道
+                if (channel.write(sBuffer) < 0) {
+                    throw new RuntimeException("设备通信失败!");
+                }
+                channel.register(TcpServer.selector, SelectionKey.OP_READ);
+                log.info("tcp发送消息:'{}'到ip:{}", msg, entry.getKey());
             }
-            channel.register(TcpServer.selector, SelectionKey.OP_READ);
-            log.info("tcp发送消息:'{}'到ip:{}", msg, entry.getKey());
+            removeList.forEach(ip -> TcpServer.map.remove(ip));
         }
 
     }
