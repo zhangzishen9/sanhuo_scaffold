@@ -8,7 +8,9 @@ import com.sanhuo.commom.enums.BasicEnum;
  * @date 2022/9/16 18:02
  **/
 public enum RestResponseCodeEnum implements BasicEnum {
-    SUCCESS(200, "成功");
+    SUCCESS(200, "成功"),
+    ERROR(500, "系统异常,请稍后重试");
+
 
     Integer id;
     String text;

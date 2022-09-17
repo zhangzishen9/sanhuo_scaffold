@@ -1,10 +1,7 @@
 package com.sanhuo.app.response;
 
 import com.sanhuo.app.enums.RestResponseCodeEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,7 +10,7 @@ import java.io.Serializable;
  * @description api返回结果
  * @date 2022/9/16 17:57
  **/
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -24,15 +21,15 @@ public class RestResponse<T> implements Serializable {
     /**
      * 真实返回内容
      */
-    private T data;
+    T data;
     /**
      * 返回代码
      */
-    private Integer code;
+    Integer code;
     /**
      * 信息
      */
-    private String msg;
+    String msg;
 
 
     RestResponse(Integer code, String msg) {
@@ -41,16 +38,5 @@ public class RestResponse<T> implements Serializable {
     }
 
 
-
-    public RestResponse<T> success() {
-        this.code = RestResponseCodeEnum.SUCCESS.getId();
-        this.msg = RestResponseCodeEnum.SUCCESS.getText();
-        return this;
-    }
-
-    public RestResponse<T> setData(T data){
-        this.data = data;
-
-    }
 
 }

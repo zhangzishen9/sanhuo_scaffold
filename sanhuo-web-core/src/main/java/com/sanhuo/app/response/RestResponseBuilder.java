@@ -22,16 +22,36 @@ public class RestResponseBuilder<T> implements Serializable {
     private RestResponseBuilder() {
     }
 
-    public RestResponseBuilder<T> success() {
+    public static RestResponseBuilder builder() {
+        return new RestResponseBuilder();
+    }
+
+    public static RestResponseBuilder builder(RestResponseCodeEnum code) {
         RestResponseBuilder builder = new RestResponseBuilder();
-        this.code = RestResponseCodeEnum.SUCCESS.getId();
-        this.msg = RestResponseCodeEnum.SUCCESS.getText();
+        builder.response.code = code.getId();
+        builder.response.msg = code.getText();
+        return builder;
+    }
+
+
+    public RestResponseBuilder<T> success() {
+        this.response.code = RestResponseCodeEnum.SUCCESS.getId();
+        this.response.msg = RestResponseCodeEnum.SUCCESS.getText();
         return this;
     }
 
-    public RestResponseBuilder<T> setData(T data) {
-        this.data = data;
+    public RestResponseBuilder<T> error() {
+        return this.builder(RestResponseCodeEnum.ERROR);
+    }
 
+
+    public RestResponseBuilder<T> setData(T data) {
+        this.response.data = data;
+        return this;
+    }
+
+    public RestResponse build() {
+        return this.response;
     }
 
 }
