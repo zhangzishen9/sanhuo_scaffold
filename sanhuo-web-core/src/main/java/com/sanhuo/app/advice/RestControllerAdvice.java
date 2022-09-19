@@ -39,7 +39,7 @@ public class RestControllerAdvice implements ResponseBodyAdvice {
         }
 
         //如果用户自己返回已经定义为统一返回的格式，不处理
-        if (returnTypeName.endsWith(".RestResponse")) {
+        if (returnTypeName.endsWith(RestResponse.class.getSimpleName())) {
             return body;
         }
 
