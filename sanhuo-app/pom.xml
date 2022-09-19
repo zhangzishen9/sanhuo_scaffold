@@ -11,6 +11,8 @@
     <modules>
         <module>sanhuo-mvp</module>
         <module>sanhuo-wechat</module>
+        <module>sanhuo-iot</module>
+
     </modules>
 
 </project>

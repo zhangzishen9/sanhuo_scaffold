@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * @description 配置请求头
  * @date 2022/9/19 13:28
  **/
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Headers {

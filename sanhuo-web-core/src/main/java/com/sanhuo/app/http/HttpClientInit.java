@@ -1,6 +1,9 @@
 package com.sanhuo.app.http;
 
 import com.sanhuo.app.annotation.SanhuoApplication;
+import com.sanhuo.app.http.annotation.Header;
+import com.sanhuo.app.http.annotation.Headers;
+import com.sanhuo.app.http.annotation.HttpClient;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.Order;
