@@ -38,6 +38,7 @@
         <redis.version>2.1.10.RELEASE</redis.version>
         <fastjson.version>1.2.83</fastjson.version>
         <yml-parse.version>2.10.0.pr2</yml-parse.version>
+        <guava-version>16.0.1</guava-version>
         <spring-boot-web.version>2.5.12</spring-boot-web.version>
         <lombok.version>1.18.20</lombok.version>
         <mybatis-spring-version>1.3.0</mybatis-spring-version>
@@ -189,6 +190,13 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>${yml-parse.version}</version>
+            </dependency>
+
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava-version}</version>
             </dependency>
 
 

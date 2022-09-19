@@ -15,4 +15,6 @@ public @interface HttpClient {
 
     String value();
 
+    //todo 单独过期时间
+
 }
