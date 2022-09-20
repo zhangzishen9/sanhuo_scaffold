@@ -15,6 +15,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,7 @@ public class HttpClientAnalysis {
             Map<String, String> methodHeaderMap = getHeadersMap(method.getAnnotation(Headers.class));
             methodHeaderMap.putAll(headersMap);
             context.setHeaders(methodHeaderMap);
+            context.setReturnType(method.getReturnType());
             for (Annotation annotation : annotations) {
                 if (HTTP_API_ANNOTATIONS.contains(annotation.getClass())) {
                     RequestMapping requestMapping = annotation.getClass().getAnnotation(RequestMapping.class);
@@ -63,8 +65,12 @@ public class HttpClientAnalysis {
         Parameter[] parameters = method.getParameters();
         Map<String, Object> bodyMap = new HashMap<>();
         Map<String, Object> paramMap = new HashMap<>();
+        List<String> methodParamList = new ArrayList<>();
 
         for (Parameter parameter : parameters) {
+            RequestParam requestParam = parameter.getAnnotation(RequestParam.class);
+            String name = requestParam == null ? parameter.getName() : requestParam.name();
+            methodParamList.add(parameter.getName());
             RequestBody requestBody = parameter.getAnnotation(RequestBody.class);
             if (requestBody != null) {
                 Class paramType = parameter.getType();
@@ -77,8 +83,6 @@ public class HttpClientAnalysis {
                 }
                 continue;
             }
-            RequestParam requestParam = parameter.getAnnotation(RequestParam.class);
-            String name = requestParam == null ? parameter.getName() : requestParam.name();
             paramMap.put(name, null);
         }
         context.setParamMap(paramMap);

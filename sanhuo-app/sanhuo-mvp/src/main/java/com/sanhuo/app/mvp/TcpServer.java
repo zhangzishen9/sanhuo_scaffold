@@ -1,4 +1,4 @@
-package com.sanhuo.mvp;
+package com.sanhuo.app.mvp;
 
 import lombok.extern.slf4j.Slf4j;
 
