@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RestResponse<T> implements Serializable {
+public class RestResponse<T> implements BaseResponse {
 
 
     private static final long serialVersionUID = -5749400746911722651L;

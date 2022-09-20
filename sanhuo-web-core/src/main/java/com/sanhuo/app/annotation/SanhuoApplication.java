@@ -2,6 +2,7 @@ package com.sanhuo.app.annotation;
 
 import com.sanhuo.app.http.annotation.EnableHttpClient;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import java.lang.annotation.*;
@@ -15,10 +16,10 @@ import java.lang.annotation.*;
         scanBasePackages = {
                 SanhuoApplication.CONFIGURATION_PACKAGE,
                 SanhuoApplication.COMPONENT_PACKAGE,
-                SanhuoApplication.SERVICE_PACKAGE,
-
+                SanhuoApplication.SERVICE_PACKAGE
         }
 )
+@EntityScan({SanhuoApplication.ENTITY_PACKAGE})
 @EnableHttpClient
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -27,10 +28,11 @@ public @interface SanhuoApplication {
 
     String BASIC_PACKAGE = "com.sanhuo";
     String ANY_MATCH = "**";
-    String PACKAGE_SCAN_PREFIX = BASIC_PACKAGE + "." + ANY_MATCH ;
-    String CONFIGURATION_PACKAGE =PACKAGE_SCAN_PREFIX + ".configuration";
+    String PACKAGE_SCAN_PREFIX = BASIC_PACKAGE + "." + ANY_MATCH;
+    String CONFIGURATION_PACKAGE = PACKAGE_SCAN_PREFIX + ".configuration";
     String SERVICE_PACKAGE = PACKAGE_SCAN_PREFIX + ".impl";
     String COMPONENT_PACKAGE = PACKAGE_SCAN_PREFIX + ".component";
+    String ENTITY_PACKAGE = PACKAGE_SCAN_PREFIX + ".entity";
 
 
 }

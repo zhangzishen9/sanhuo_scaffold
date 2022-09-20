@@ -12,6 +12,7 @@
         <module>sanhuo-mvp</module>
         <module>sanhuo-wechat</module>
         <module>sanhuo-iot</module>
+        <module>sanhuo-security</module>
 
     </modules>
 

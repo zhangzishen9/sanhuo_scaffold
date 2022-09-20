@@ -1,5 +1,8 @@
 package com.sanhuo.app.http.annotation;
 
+import com.sanhuo.app.http.DefaultResultCheck;
+import com.sanhuo.app.http.HttpClientApiResultCheck;
+
 import java.lang.annotation.*;
 
 /**
@@ -15,6 +18,5 @@ public @interface HttpClient {
 
     String value();
 
-    //todo 单独过期时间
-
+    Class<? extends HttpClientApiResultCheck> check() default DefaultResultCheck.class;
 }

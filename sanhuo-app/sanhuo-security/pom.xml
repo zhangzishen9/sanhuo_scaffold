@@ -9,9 +9,9 @@
         <relativePath>../../sanhuo-pom/pom.xml</relativePath>
     </parent>
 
-    <artifactId>sanhuo-mvp</artifactId>
+    <artifactId>sanhuo-security</artifactId>
     <version>${sanhuo.version}</version>
-    <name>sanhuo-mvp</name>
+    <name>sanhuo-security</name>
 
     <dependencies>
 
@@ -19,8 +19,6 @@
             <groupId>com.sanhuo</groupId>
             <artifactId>sanhuo-web-core</artifactId>
         </dependency>
-
-
 
     </dependencies>
 
