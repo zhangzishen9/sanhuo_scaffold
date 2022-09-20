@@ -1,4 +1,4 @@
-package com.sanhuo.app.wechat.constant;
+package com.sanhuo.wechat.constant;
 
 /**
  * @author zhangzs

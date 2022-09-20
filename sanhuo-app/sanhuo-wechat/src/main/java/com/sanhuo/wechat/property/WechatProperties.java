@@ -1,4 +1,4 @@
-package com.sanhuo.app.wechat.property;
+package com.sanhuo.wechat.property;
 
 /**
  * @author zhangzs

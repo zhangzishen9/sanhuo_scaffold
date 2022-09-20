@@ -1,4 +1,4 @@
-package com.sanhuo.app.wechat.response;
+package com.sanhuo.wechat.response;
 
 import com.sanhuo.app.response.BaseResponse;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WechatloginResponse implements BaseResponse {
+public class WechatTokenResponse implements BaseResponse {
 
-    private String openid;
-    private String session_key;
-    private String unionid;
-    private int errcode;
-    private String errmsg;
+    private String access_token;
+
+    private Long expires_in;
+
+
 }
