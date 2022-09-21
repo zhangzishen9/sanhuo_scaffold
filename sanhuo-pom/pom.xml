@@ -177,6 +177,24 @@
                 <version>${sanhuo.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.sanhuo</groupId>
+                <artifactId>sanhuo-security</artifactId>
+                <version>${sanhuo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sanhuo</groupId>
+                <artifactId>sanhuo-wechat</artifactId>
+                <version>${sanhuo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sanhuo</groupId>
+                <artifactId>sanhuo-iot</artifactId>
+                <version>${sanhuo.version}</version>
+            </dependency>
+
             <!-- 数据库连接驱动 -->
             <dependency>
                 <groupId>mysql</groupId>
