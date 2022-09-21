@@ -1,4 +1,4 @@
-package com.sanhuo.app.security.infrastructure.persistence.entity.role;
+package com.sanhuo.app.security.infrastructure.persistence.entity;
 
 import com.sanhuo.persistent.entity.BaseDO;
 
@@ -13,10 +13,10 @@ import javax.persistence.Table;
  **/
 @Entity
 @Table(name = "t_security_user_role_rel")
-public class SecurityUserRoleRelDO extends BaseDO {
+public class SecurityRolePermissionRelDO extends BaseDO {
 
-    @Column(name = "c_user_id")
-    private Integer userId;
+    @Column(name = "c_permission_id")
+    private Integer permission_id;
 
     @Column(name = "c_role_id")
     private Integer roleId;

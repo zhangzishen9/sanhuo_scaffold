@@ -1,4 +1,4 @@
-package com.sanhuo.app.security.infrastructure.persistence.entity.permission;
+package com.sanhuo.app.security.infrastructure.persistence.entity;
 
 import com.sanhuo.persistent.entity.BaseDO;
 
