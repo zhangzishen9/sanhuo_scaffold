@@ -3,6 +3,7 @@ package com.sanhuo.app.http.invoke.helper;
 import com.alibaba.fastjson.JSONObject;
 import com.sanhuo.app.http.invoke.HttpClientMethodContext;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import java.util.Map;
  * @date 2022/10/8 19:46
  **/
 @AllArgsConstructor
+@Getter
 public class HttpMethodInvokeHelper {
 
     private HttpClientMethodContext context;

@@ -1,6 +1,8 @@
 package com.sanhuo.app.http.invoke.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,9 @@ import java.util.Map;
  * @date 2022/8/5 18:08
  **/
 @Slf4j
+@AllArgsConstructor
 public class HttpTemplateWithTimeout {
 
-    @Resource
     private RestTemplate restTemplateWithTimeout;
 
     /**

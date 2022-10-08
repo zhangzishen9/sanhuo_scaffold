@@ -2,9 +2,8 @@ package com.sanhuo.app.http.invoke.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sanhuo.app.http.invoke.HttpClientMethodContext;
-import com.sanhuo.app.http.invoke.HttpMethodInvoke;
+import com.sanhuo.app.http.invoke.HttpMethodInvoker;
 import com.sanhuo.app.http.invoke.helper.HttpMethodInvokeHelper;
-import com.sanhuo.commom.spring.SpringContextManager;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
@@ -14,24 +13,19 @@ import org.springframework.http.ResponseEntity;
  * @date 2022/9/19 13:54
  **/
 @AllArgsConstructor
-public class ResttemplateInvoke implements HttpMethodInvoke {
+public class ResttemplateInvoker implements HttpMethodInvoker {
 
     private HttpTemplateWithTimeout template;
 
-    private HttpClientMethodContext context;
 
-    private HttpMethodInvokeHelper helper;
-
-    public ResttemplateInvoke(HttpClientMethodContext context) {
-        this.context = context;
-        this.helper = new HttpMethodInvokeHelper(context);
-        this.template = SpringContextManager.getBean(HttpTemplateWithTimeout.class);
+    public ResttemplateInvoker(HttpTemplateWithTimeout template) {
+       this.template = template;
     }
 
 
     @Override
-    public Object invoke(Object... args) {
-        switch (this.context.getMethod()) {
+    public Object invoke(HttpMethodInvokeHelper helper, Object... args) {
+        switch (helper.getContext().getMethod()) {
             case POST:
                 return this.post(args);
         }
@@ -44,7 +38,7 @@ public class ResttemplateInvoke implements HttpMethodInvoke {
 
     private Object post(Object... args) {
         this.helper.doParseMethodArgsForBody(args);
-        ResponseEntity<String> responseEntity = template.postWithTimeout(this.context.getUrl(), this.helper.createHttpEntity(true, args), String.class);
+        ResponseEntity<String> responseEntity = template.postWithTimeout(this..getUrl(), this.helper.createHttpEntity(true, args), String.class);
         //转会返回类
         Class returnType = this.context.getReturnType();
         return JSONObject.parseObject(responseEntity.getBody(), returnType);
