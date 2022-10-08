@@ -37,6 +37,7 @@ public class HttpClientMethodContext {
      * headers 列表
      */
     private Map<String, String> headers;
+
     /**
      * request body列表
      */
@@ -46,6 +47,11 @@ public class HttpClientMethodContext {
      * query param列表
      */
     private Map<String, Object> paramMap;
+
+    /**
+     * pathValue param 列表
+     */
+    private Map<String, String> pathParamMap;
 
     /**
      * 方法参数

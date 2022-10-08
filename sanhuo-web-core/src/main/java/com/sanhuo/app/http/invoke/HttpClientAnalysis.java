@@ -5,6 +5,8 @@ import com.sanhuo.app.http.annotation.Header;
 import com.sanhuo.app.http.annotation.Headers;
 import com.sanhuo.app.http.annotation.HttpClient;
 import com.sanhuo.app.http.invoke.HttpClientMethodContext;
+import com.sanhuo.commom.basic.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import java.util.Map;
  * @description
  * @date 2022/9/19 12:50
  **/
+@Slf4j
 public class HttpClientAnalysis {
 
     private static final List<Class<? extends Annotation>> HTTP_API_ANNOTATIONS = ImmutableList.of(GetMapping.class, PutMapping.class, DeleteMapping.class, PostMapping.class);
@@ -61,12 +64,14 @@ public class HttpClientAnalysis {
         Parameter[] parameters = method.getParameters();
         Map<String, Object> bodyMap = new HashMap<>();
         Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> pathVariableMap = new HashMap<>();
         List<String> methodParamList = new ArrayList<>();
 
         for (Parameter parameter : parameters) {
             RequestParam requestParam = parameter.getAnnotation(RequestParam.class);
             String name = requestParam == null ? parameter.getName() : requestParam.name();
             methodParamList.add(parameter.getName());
+            //是否是body
             RequestBody requestBody = parameter.getAnnotation(RequestBody.class);
             if (requestBody != null) {
                 Class paramType = parameter.getType();
@@ -79,18 +84,56 @@ public class HttpClientAnalysis {
                 }
                 continue;
             }
+            //是否是PathVariable
+            PathVariable pathVariable = parameter.getAnnotation(PathVariable.class);
+            if (pathVariable != null) {
+                pathVariableMap.put(parameter.getName(), pathVariable.name());
+            }
+
             paramMap.put(name, null);
         }
         context.setParamMap(paramMap);
         context.setBodyMap(bodyMap);
     }
 
+
+    /**
+     * 解析方法参数
+     * #{@link PathVariable}
+     *
+     * @return
+     */
+    private static Map<String, String> getPathValueMap() {
+
+    }
+
+    /**
+     * 解析请求头
+     *
+     * @param headers
+     * @return
+     */
     private static Map<String, String> getHeadersMap(Headers headers) {
         Map<String, String> headersMap = new HashMap<>();
         if (headers != null) {
             Header[] values = headers.values();
             for (Header header : values) {
-                headersMap.put(header.name(), header.value());
+                if (StringUtil.isBlank(header.values())) {
+                    if (StringUtil.isBlank(header.name()) || StringUtil.isBlank(header.value())) {
+                        log.warn("haederParam name or value is blank ,pleade check");
+                        continue;
+                    }
+                    headersMap.put(header.name(), header.value());
+                } else {
+                    String headerValue = header.values();
+                    int index = headerValue.indexOf("=");
+                    if (index == -1) {
+                        log.warn("please check header format,need 'name = value'");
+                    }
+                    String name = headerValue.substring(0, index);
+                    String paramValue = headerValue.substring(index - 1);
+                    headersMap.put(name, paramValue);
+                }
             }
         }
         return headersMap;
