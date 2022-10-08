@@ -1,6 +1,7 @@
-package com.sanhuo.app.http;
+package com.sanhuo.app.http.proxy;
 
 import com.sanhuo.app.http.annotation.HttpClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -16,6 +17,7 @@ import java.util.Set;
  * @author sanhuo
  * @date 2020/3/1 0001 下午 21:29
  */
+@Slf4j
 public class HttpClientScanner extends ClassPathBeanDefinitionScanner {
 
 
@@ -41,15 +43,16 @@ public class HttpClientScanner extends ClassPathBeanDefinitionScanner {
      * @param beanDefinitionHolders
      */
     private void registerProxy(Set<BeanDefinitionHolder> beanDefinitionHolders) {
-        beanDefinitionHolders.stream().forEach(beanDefinitionHolder -> {
+        beanDefinitionHolders.forEach(beanDefinitionHolder -> {
             GenericBeanDefinition genericBeanDefinition = (GenericBeanDefinition) beanDefinitionHolder.getBeanDefinition();
-            //mapper类
+            //httpclient
             Class httpClientTarget = null;
             try {
+                //获取对应的类对象
                 httpClientTarget = Class.forName(genericBeanDefinition.getBeanClassName());
             } catch (ClassNotFoundException e) {
-                //todo
-                e.printStackTrace();
+                log.error("class.forname error :{} ", e.getMessage());
+                return;
             }
             //构造函数的参数
             genericBeanDefinition.getConstructorArgumentValues().addGenericArgumentValue(httpClientTarget);

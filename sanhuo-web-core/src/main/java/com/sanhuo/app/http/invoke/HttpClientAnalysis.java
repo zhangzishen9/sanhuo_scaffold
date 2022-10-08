@@ -1,25 +1,21 @@
-package com.sanhuo.app.http;
+package com.sanhuo.app.http.invoke;
 
 import com.google.common.collect.ImmutableList;
 import com.sanhuo.app.http.annotation.Header;
 import com.sanhuo.app.http.annotation.Headers;
 import com.sanhuo.app.http.annotation.HttpClient;
-import com.sanhuo.app.http.annotation.HttpClientConfig;
-import jdk.nashorn.internal.ir.annotations.Immutable;
+import com.sanhuo.app.http.invoke.HttpClientMethodContext;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author zhangzs
@@ -28,10 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class HttpClientAnalysis {
 
-    private static List<Class> HTTP_API_ANNOTATIONS = ImmutableList.of(GetMapping.class, PutMapping.class, DeleteMapping.class, PostMapping.class);
+    private static final List<Class<? extends Annotation>> HTTP_API_ANNOTATIONS = ImmutableList.of(GetMapping.class, PutMapping.class, DeleteMapping.class, PostMapping.class);
 
     public static Map<String, HttpClientMethodContext> doAnalysis(Class target) {
-        Map<String, HttpClientMethodContext> result = new HashMap<>();
+        Map<String, HttpClientMethodContext> result = new HashMap<String, HttpClientMethodContext>();
         HttpClient httpClient = (HttpClient) target.getAnnotation(HttpClient.class);
         //获取api前缀
         String prefix = httpClient.value();

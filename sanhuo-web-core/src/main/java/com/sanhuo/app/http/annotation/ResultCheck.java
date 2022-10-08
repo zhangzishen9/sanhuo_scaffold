@@ -7,16 +7,13 @@ import java.lang.annotation.*;
 
 /**
  * @author zhangzs
- * @description
- * @date 2022/9/19 13:27
+ * @description 结果校验
+ * @date 2022/10/8 19:58
  **/
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface HttpClient {
+public @interface ResultCheck {
 
-
-    String value();
-
-    Class<? extends HttpClientApiResultCheck> check() default DefaultResultCheck.class;
+    Class<? extends HttpClientApiResultCheck<?>> values() default DefaultResultCheck.class;
 }

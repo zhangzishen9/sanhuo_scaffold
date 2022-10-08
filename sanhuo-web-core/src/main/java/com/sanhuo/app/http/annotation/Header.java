@@ -13,9 +13,19 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface Header {
+    /**
+     * 请求头参数名
+     */
+    String name() default "";
 
-    String name();
+    /**
+     * 请求头参数值
+     */
+    String value() default "";
 
-    String value();
-    
+    /**
+     * 也可以直接写，例如：Content-Type=application/json;charset=UTF-8，为空时取 name = value,不为空时该值优先度较高
+     */
+    String values() default "";
+
 }

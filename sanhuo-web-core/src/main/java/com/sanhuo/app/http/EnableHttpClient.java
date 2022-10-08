@@ -1,4 +1,4 @@
-package com.sanhuo.app.http.annotation;
+package com.sanhuo.app.http;
 
 import com.sanhuo.app.http.HttpClientInit;
 import org.springframework.context.annotation.Import;

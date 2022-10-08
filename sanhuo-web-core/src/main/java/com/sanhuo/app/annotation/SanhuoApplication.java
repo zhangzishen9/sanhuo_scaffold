@@ -1,9 +1,8 @@
 package com.sanhuo.app.annotation;
 
-import com.sanhuo.app.http.annotation.EnableHttpClient;
+import com.sanhuo.app.http.EnableHttpClient;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import java.lang.annotation.*;
 

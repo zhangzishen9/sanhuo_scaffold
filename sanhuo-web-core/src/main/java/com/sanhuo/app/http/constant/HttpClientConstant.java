@@ -1,4 +1,4 @@
-package com.sanhuo.app.http;
+package com.sanhuo.app.http.constant;
 
 /**
  * @author zhangzs

@@ -1,6 +1,6 @@
 package com.sanhuo.app.http.annotation;
 
-import com.sanhuo.app.http.HttpClientConstant;
+import com.sanhuo.app.http.constant.HttpClientConstant;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,8 @@
-package com.sanhuo.app.http;
+package com.sanhuo.app.http.proxy;
+
+import com.sanhuo.app.http.invoke.HttpClientAnalysis;
+import com.sanhuo.app.http.invoke.HttpClientMethodContext;
+import com.sanhuo.app.http.invoke.impl.ResttemplateInvoke;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -27,7 +31,7 @@ public class HttpClientProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return new HttpMethodInvoke(this.methodContextMap.get(method.getName())).invoke(args);
+        return new ResttemplateInvoke(this.methodContextMap.get(method.getName())).invoke(args);
     }
 
     @Override

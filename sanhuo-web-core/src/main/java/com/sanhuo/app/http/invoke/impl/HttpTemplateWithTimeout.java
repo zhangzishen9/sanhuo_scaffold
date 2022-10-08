@@ -1,4 +1,4 @@
-package com.sanhuo.io.http;
+package com.sanhuo.app.http.invoke.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;

@@ -1,5 +1,6 @@
-package com.sanhuo.app.http;
+package com.sanhuo.app.http.proxy;
 
+import com.sanhuo.app.http.proxy.HttpClientProxy;
 import org.springframework.beans.factory.FactoryBean;
 
 import java.lang.reflect.Proxy;
