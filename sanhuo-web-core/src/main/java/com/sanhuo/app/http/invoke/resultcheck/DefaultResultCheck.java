@@ -12,4 +12,9 @@ public class DefaultResultCheck implements HttpClientApiResultCheck<String> {
         //do nothing
         return true;
     }
+
+    @Override
+    public String errorMessage(String httpResult) {
+        return "";
+    }
 }

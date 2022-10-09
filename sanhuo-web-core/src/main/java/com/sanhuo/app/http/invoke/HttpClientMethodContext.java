@@ -1,5 +1,6 @@
 package com.sanhuo.app.http.invoke;
 
+import com.sanhuo.app.http.invoke.param.HttpMethodParam;
 import com.sanhuo.app.http.invoke.resultcheck.HttpClientApiResultCheck;
 import lombok.*;
 import org.springframework.http.HttpMethod;
@@ -39,19 +40,9 @@ public class HttpClientMethodContext {
     private Map<String, String> headers;
 
     /**
-     * request body列表
+     * 参数列表
      */
-    private Map<String, Object> bodyMap;
-
-    /**
-     * query param列表
-     */
-    private Map<String, Object> paramMap;
-
-    /**
-     * pathValue param 列表
-     */
-    private Map<String, String> pathParamMap;
+    private List<HttpMethodParam> params;
 
     /**
      * 方法参数
@@ -66,7 +57,7 @@ public class HttpClientMethodContext {
     /**
      * 结果校验
      */
-    private Class<? extends HttpClientApiResultCheck> resultCheck;
+    private HttpClientApiResultCheck resultCheck;
 
 
 }

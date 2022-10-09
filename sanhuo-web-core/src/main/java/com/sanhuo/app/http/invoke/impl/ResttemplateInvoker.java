@@ -3,8 +3,10 @@ package com.sanhuo.app.http.invoke.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.sanhuo.app.http.invoke.HttpClientMethodContext;
 import com.sanhuo.app.http.invoke.HttpMethodInvoker;
+import com.sanhuo.app.http.invoke.helper.HttpEntityHelper;
 import com.sanhuo.app.http.invoke.helper.HttpMethodInvokeHelper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -13,44 +15,44 @@ import org.springframework.http.ResponseEntity;
  * @date 2022/9/19 13:54
  **/
 @AllArgsConstructor
-public class ResttemplateInvoker implements HttpMethodInvoker {
+public class ResttemplateInvoker extends HttpMethodInvoker {
 
     private HttpTemplateWithTimeout template;
 
-
-    public ResttemplateInvoker(HttpTemplateWithTimeout template) {
-       this.template = template;
-    }
-
-
     @Override
-    public Object invoke(HttpMethodInvokeHelper helper, Object... args) {
-        switch (helper.getContext().getMethod()) {
+    public Object doInvoke(HttpClientMethodContext context, Object... args) {
+        switch (context.getMethod()) {
             case POST:
-                return this.post(args);
+                return this.post(context, args);
+            case GET:
+                return this.get(context, args);
+            case PUT:
+                return this.put(context, args);
+            case DELETE:
+                return this.delete(context, args);
+            default:
+                throw new RuntimeException("暂不支持GET/POST/PUT/DELETE以外的方法");
         }
-        return null;
     }
 
     private Object get(Object... args) {
         return null;
     }
 
-    private Object post(Object... args) {
-        this.helper.doParseMethodArgsForBody(args);
-        ResponseEntity<String> responseEntity = template.postWithTimeout(this..getUrl(), this.helper.createHttpEntity(true, args), String.class);
-        //转会返回类
-        Class returnType = this.context.getReturnType();
+    private Object post(HttpClientMethodContext context, Object... args) {
+        HttpEntity<String> entity = new HttpEntityHelper(context, args).createEntity();
+        ResponseEntity<String> responseEntity = template.postWithTimeout(context.getUrl(), entity, String.class);
+        Class returnType = context.getReturnType();
         return JSONObject.parseObject(responseEntity.getBody(), returnType);
     }
 
 
-    private Object put(Object args) {
+    private Object put(HttpClientMethodContext context, Object... args) {
         return null;
     }
 
 
-    private Object delete(Object args) {
+    private Object delete(HttpClientMethodContext context, Object... args) {
         return null;
     }
 

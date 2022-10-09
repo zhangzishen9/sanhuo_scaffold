@@ -4,7 +4,11 @@ import com.google.common.collect.ImmutableList;
 import com.sanhuo.app.http.annotation.Header;
 import com.sanhuo.app.http.annotation.Headers;
 import com.sanhuo.app.http.annotation.HttpClient;
+import com.sanhuo.app.http.annotation.ResultCheck;
 import com.sanhuo.app.http.invoke.HttpClientMethodContext;
+import com.sanhuo.app.http.invoke.helper.HeaderAnalysisHelper;
+import com.sanhuo.app.http.invoke.helper.MethodParamAnalysisHelper;
+import com.sanhuo.app.http.invoke.resultcheck.HttpClientApiResultCheck;
 import com.sanhuo.commom.basic.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -36,107 +40,47 @@ public class HttpClientAnalysis {
         String prefix = httpClient.value();
         //获取通用请求头
         Headers headers = (Headers) target.getAnnotation(Headers.class);
-        Map<String, String> headersMap = getHeadersMap(headers);
+        Map<String, String> headersMap = new HeaderAnalysisHelper(headers).analaysis();
         Method[] methods = target.getMethods();
+        HttpClientApiResultCheck targetResultCheck = createResultCheck((ResultCheck) target.getAnnotation(ResultCheck.class));
         for (Method method : methods) {
             Annotation[] annotations = method.getAnnotations();
             HttpClientMethodContext context = new HttpClientMethodContext();
-            //解析headers
-            Map<String, String> methodHeaderMap = getHeadersMap(method.getAnnotation(Headers.class));
-            methodHeaderMap.putAll(headersMap);
+            //解析headers，方法上的优先
+            Map<String, String> methodHeaderMap = new HashMap<>(headersMap);
+            methodHeaderMap.putAll(new HeaderAnalysisHelper(method.getAnnotation(Headers.class)).analaysis());
             context.setHeaders(methodHeaderMap);
             context.setReturnType(method.getReturnType());
+            //结果校验类，方法上的优先
+            HttpClientApiResultCheck methodResultCheck = createResultCheck((ResultCheck) method.getAnnotation(ResultCheck.class));
+            context.setResultCheck(methodResultCheck != null ? methodResultCheck : targetResultCheck);
             for (Annotation annotation : annotations) {
                 if (HTTP_API_ANNOTATIONS.contains(annotation.getClass())) {
                     RequestMapping requestMapping = annotation.getClass().getAnnotation(RequestMapping.class);
                     context.setMethod(requestMapping.method()[0]);
                     context.setUrl(prefix + requestMapping.path()[0]);
-                    doAnalysisParam(method, context);
+                    context.setParams(new MethodParamAnalysisHelper(method).analysis());
+
                     result.put(method.getName(), context);
                 }
             }
+
         }
         return result;
     }
 
-
-    private static void doAnalysisParam(Method method, HttpClientMethodContext context) {
-        Parameter[] parameters = method.getParameters();
-        Map<String, Object> bodyMap = new HashMap<>();
-        Map<String, Object> paramMap = new HashMap<>();
-        Map<String, Object> pathVariableMap = new HashMap<>();
-        List<String> methodParamList = new ArrayList<>();
-
-        for (Parameter parameter : parameters) {
-            RequestParam requestParam = parameter.getAnnotation(RequestParam.class);
-            String name = requestParam == null ? parameter.getName() : requestParam.name();
-            methodParamList.add(parameter.getName());
-            //是否是body
-            RequestBody requestBody = parameter.getAnnotation(RequestBody.class);
-            if (requestBody != null) {
-                Class paramType = parameter.getType();
-                PropertyDescriptor[] propertyDescriptors = BeanUtils.getPropertyDescriptors(paramType);
-                for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-                    if ("class".equals(propertyDescriptor.getName())) {
-                        continue;
-                    }
-                    bodyMap.put(propertyDescriptor.getName(), null);
-                }
-                continue;
-            }
-            //是否是PathVariable
-            PathVariable pathVariable = parameter.getAnnotation(PathVariable.class);
-            if (pathVariable != null) {
-                pathVariableMap.put(parameter.getName(), pathVariable.name());
-            }
-
-            paramMap.put(name, null);
-        }
-        context.setParamMap(paramMap);
-        context.setBodyMap(bodyMap);
-    }
-
-
-    /**
-     * 解析方法参数
-     * #{@link PathVariable}
-     *
-     * @return
-     */
-    private static Map<String, String> getPathValueMap() {
-
-    }
-
-    /**
-     * 解析请求头
-     *
-     * @param headers
-     * @return
-     */
-    private static Map<String, String> getHeadersMap(Headers headers) {
-        Map<String, String> headersMap = new HashMap<>();
-        if (headers != null) {
-            Header[] values = headers.values();
-            for (Header header : values) {
-                if (StringUtil.isBlank(header.values())) {
-                    if (StringUtil.isBlank(header.name()) || StringUtil.isBlank(header.value())) {
-                        log.warn("haederParam name or value is blank ,pleade check");
-                        continue;
-                    }
-                    headersMap.put(header.name(), header.value());
-                } else {
-                    String headerValue = header.values();
-                    int index = headerValue.indexOf("=");
-                    if (index == -1) {
-                        log.warn("please check header format,need 'name = value'");
-                    }
-                    String name = headerValue.substring(0, index);
-                    String paramValue = headerValue.substring(index - 1);
-                    headersMap.put(name, paramValue);
-                }
+    private static HttpClientApiResultCheck createResultCheck(ResultCheck resultCheck) {
+        if (resultCheck != null) {
+            //生成结果检查类
+            try {
+                return resultCheck.values().newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                log.error("初始化http结果检查类出错 : {}", e.getMessage());
+                throw new RuntimeException(e.getMessage());
             }
         }
-        return headersMap;
+        return null;
     }
+
 
 }

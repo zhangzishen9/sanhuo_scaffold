@@ -35,7 +35,7 @@ public class HttpClientProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         HttpMethodInvoker invoker = SpringContextManager.getBean(HttpMethodInvoker.class);
-        return invoker.invoke(new HttpMethodInvokeHelper(this.methodContextMap.get(method.getName())),args);
+        return invoker.invoke(this.methodContextMap.get(method.getName()),args);
     }
 
     @Override

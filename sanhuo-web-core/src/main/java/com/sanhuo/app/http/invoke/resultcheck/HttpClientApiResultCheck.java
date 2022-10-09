@@ -10,4 +10,9 @@ public interface HttpClientApiResultCheck<T> {
      * 校验接口返回是否成功
      */
     Boolean checkApiIfSuccess(T httpResult);
+
+    /**
+     * 抛出的异常
+     */
+    String errorMessage(T httpResult);
 }

@@ -10,8 +10,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import sun.management.VMManagement;
-
+//import sun.management.VMManagement;
+//
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -116,11 +116,11 @@ public class RedisReentrantLockUtils {
             RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
             Field jvm = runtime.getClass().getDeclaredField("jvm");
             jvm.setAccessible(true);
-            VMManagement mgmt = (VMManagement) jvm.get(runtime);
-            Method pidMethod = mgmt.getClass().getDeclaredMethod("getProcessId");
-            pidMethod.setAccessible(true);
-            int pid = (Integer) pidMethod.invoke(mgmt);
-            return pid;
+//            VMManagement mgmt = (VMManagement) jvm.get(runtime);
+//            Method pidMethod = mgmt.getClass().getDeclaredMethod("getProcessId");
+//            pidMethod.setAccessible(true);
+//            int pid = (Integer) pidMethod.invoke(mgmt);
+            return -1;
         } catch (Exception e) {
             return -1;
         }

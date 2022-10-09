@@ -22,10 +22,6 @@ public class HttpMethodInvokeHelper {
     private HttpClientMethodContext context;
 
 
-    public HttpEntity createHttpEntity(boolean isJson, Object... args) {
-        return new HttpEntity(JSONObject.toJSONString(this.context.getBodyMap()), this.createHeaders(isJson, args));
-    }
-
 
     public HttpHeaders createHeaders(boolean isJson, Object... args) {
         HttpHeaders headers = new HttpHeaders();
@@ -44,13 +40,13 @@ public class HttpMethodInvokeHelper {
         return headers;
     }
 
-    public void doParseMethodArgsForBody(Object... args) {
-        for (int i = 0; i < args.length; i++) {
-            String paramname = this.context.getMethodParamList().get(0);
-            if (this.context.getBodyMap().containsKey(paramname)) {
-                this.context.getBodyMap().put(paramname, args[0]);
-            }
-        }
-    }
+//    public void doParseMethodArgsForBody(Object... args) {
+//        for (int i = 0; i < args.length; i++) {
+//            String paramname = this.context.getMethodParamList().get(0);
+//            if (this.context.getBodyMap().containsKey(paramname)) {
+//                this.context.getBodyMap().put(paramname, args[0]);
+//            }
+//        }
+//    }
 
 }
